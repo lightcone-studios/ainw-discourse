@@ -3,6 +3,10 @@
   "about_url": "https://ainorthwest.org",
   "license_url": "https://github.com/lightcone-studios/ainw-discourse/blob/main/LICENSE",
   "component": false,
+  "assets": {
+    "berkeley-mono-regular": "assets/BerkeleyMono-Regular.woff2",
+    "berkeley-mono-bold": "assets/BerkeleyMono-Bold.woff2"
+  },
   "color_schemes": {
     "AINW Dark": {
       "primary": "ffffff",
