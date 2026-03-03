@@ -1,0 +1,355 @@
+/* =========================================================
+   AINW Community Forum — Discourse Theme
+   Brutalist/ASCII aesthetic matching ainorthwest.org
+   ========================================================= */
+
+/* ------- TYPOGRAPHY ------- */
+
+html {
+  font-family: 'Courier New', 'Monaco', 'Menlo', monospace !important;
+}
+
+body,
+.d-header,
+.topic-list,
+.post-stream,
+.category-list,
+input,
+textarea,
+select,
+button,
+.btn,
+.nav-pills > li > a,
+.d-header .title a,
+.topic-list-item .link-top-line a,
+#reply-control .reply-to .reply-details,
+.user-card .names .name,
+.badge-card .badge-contents .badge-info {
+  font-family: 'Courier New', 'Monaco', 'Menlo', monospace !important;
+}
+
+h1, h2, h3, h4, h5, h6,
+.topic-title h1,
+.category-name,
+.d-header .title a {
+  font-family: 'Courier New', 'Monaco', 'Menlo', monospace !important;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+body {
+  line-height: 1.6;
+  letter-spacing: 0.02em;
+}
+
+
+/* ------- KILL ALL BORDER RADIUS ------- */
+
+*,
+*::before,
+*::after {
+  border-radius: 0 !important;
+}
+
+
+/* ------- KILL ALL BOX SHADOWS ------- */
+
+*,
+.d-header,
+.topic-list-item,
+.user-card,
+.card-content,
+#reply-control,
+.modal-inner-container,
+.select-kit .select-kit-header,
+.menu-panel,
+.drop-down-mode .d-header-icons .active .icon {
+  box-shadow: none !important;
+}
+
+
+/* ------- BUTTONS ------- */
+
+.btn,
+.btn-primary,
+.btn-default {
+  border: 1px solid #fff !important;
+  background-color: transparent !important;
+  color: #fff !important;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 500;
+  transition: all 0.15s ease;
+}
+
+.btn:hover,
+.btn-primary:hover,
+.btn-default:hover {
+  background-color: #fff !important;
+  color: #000 !important;
+}
+
+.btn-primary {
+  background-color: #fff !important;
+  color: #000 !important;
+}
+
+.btn-primary:hover {
+  background-color: transparent !important;
+  color: #fff !important;
+  border: 1px solid #fff !important;
+}
+
+.btn-danger {
+  border-color: #ff4444 !important;
+  color: #ff4444 !important;
+  background-color: transparent !important;
+}
+
+.btn-danger:hover {
+  background-color: #ff4444 !important;
+  color: #000 !important;
+}
+
+
+/* ------- HEADER ------- */
+
+.d-header-wrap {
+  border-bottom: 1px solid #333;
+}
+
+.d-header {
+  background-color: #000 !important;
+}
+
+.d-header .title a,
+.d-header .d-icon {
+  color: #fff !important;
+}
+
+.d-header-icons .icon:hover,
+.d-header-icons .icon:focus {
+  background-color: #111 !important;
+}
+
+
+/* ------- NAVIGATION ------- */
+
+.nav-pills > li > a {
+  color: #999 !important;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 0.85em;
+  border-bottom: 1px solid transparent;
+  transition: all 0.15s ease;
+}
+
+.nav-pills > li > a:hover {
+  color: #fff !important;
+  background-color: transparent !important;
+  border-bottom: 1px solid #fff;
+}
+
+.nav-pills > li.active > a {
+  color: #fff !important;
+  background-color: transparent !important;
+  border-bottom: 1px solid #fff;
+}
+
+
+/* ------- TOPIC LIST ------- */
+
+.topic-list-item {
+  border-bottom: 1px solid #222 !important;
+}
+
+.topic-list-item:hover {
+  background-color: #111 !important;
+}
+
+.topic-list .link-top-line a.title {
+  color: #fff !important;
+}
+
+.topic-list .link-top-line a.title:visited {
+  color: #888 !important;
+}
+
+.topic-list .topic-excerpt {
+  color: #666 !important;
+}
+
+.badge-notification,
+.badge-wrapper {
+  border: 1px solid #333 !important;
+  background-color: #111 !important;
+  color: #fff !important;
+}
+
+
+/* ------- POSTS ------- */
+
+.topic-post {
+  border-bottom: 1px solid #222;
+}
+
+.topic-body .contents {
+  color: #ddd;
+}
+
+.topic-body .cooked a {
+  color: #fff;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.topic-body .cooked a:hover {
+  color: #ccc;
+}
+
+blockquote {
+  border-left: 3px solid #333 !important;
+  background-color: #0a0a0a !important;
+  color: #999 !important;
+}
+
+.topic-body .cooked code,
+.topic-body .cooked pre {
+  background-color: #111 !important;
+  border: 1px solid #333 !important;
+  color: #ddd !important;
+}
+
+
+/* ------- CATEGORIES ------- */
+
+.category-list .category {
+  border-bottom: 1px solid #222;
+}
+
+.badge-category__wrapper .badge-category {
+  font-family: 'Courier New', 'Monaco', 'Menlo', monospace !important;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+
+/* ------- COMPOSER ------- */
+
+#reply-control {
+  background-color: #0a0a0a !important;
+  border-top: 1px solid #333 !important;
+}
+
+#reply-control .d-editor-textarea-wrapper textarea {
+  background-color: #000 !important;
+  color: #fff !important;
+  border: 1px solid #333 !important;
+  font-family: 'Courier New', 'Monaco', 'Menlo', monospace !important;
+}
+
+#reply-control .d-editor-preview {
+  background-color: #0a0a0a !important;
+  color: #ddd !important;
+}
+
+
+/* ------- SELECTION ------- */
+
+::selection {
+  background-color: #fff !important;
+  color: #000 !important;
+}
+
+
+/* ------- SCROLLBAR ------- */
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #111;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 0 !important;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+
+/* ------- DROPDOWNS / MODALS ------- */
+
+.menu-panel,
+.select-kit .select-kit-body,
+.modal-inner-container {
+  background-color: #111 !important;
+  border: 1px solid #333 !important;
+}
+
+.select-kit .select-kit-row:hover,
+.select-kit .select-kit-row.is-highlighted {
+  background-color: #222 !important;
+}
+
+
+/* ------- USER CARDS ------- */
+
+.user-card,
+.card-content {
+  background-color: #111 !important;
+  border: 1px solid #333 !important;
+}
+
+.user-card .names .name,
+.user-card .names .username {
+  color: #fff !important;
+}
+
+
+/* ------- FOOTER / MISC ------- */
+
+.custom-footer,
+#topic-footer-buttons {
+  border-top: 1px solid #222;
+}
+
+.spinner {
+  border-color: #333 !important;
+  border-top-color: #fff !important;
+}
+
+.empty-state-body {
+  color: #666;
+}
+
+.keyboard-shortcuts-modal .shortcut-description {
+  color: #999;
+}
+
+.login-modal,
+.create-account {
+  background-color: #000 !important;
+}
+
+.login-modal input,
+.create-account input {
+  background-color: #111 !important;
+  border: 1px solid #333 !important;
+  color: #fff !important;
+}
+
+
+/* ------- AGENT GROUP FLAIR ------- */
+
+.flair-url.fa-robot {
+  color: #666;
+}
+
+.group-agents .topic-avatar {
+  opacity: 0.9;
+}

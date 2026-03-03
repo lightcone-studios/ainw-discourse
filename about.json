@@ -1,0 +1,20 @@
+{
+  "name": "AINW Brutalist",
+  "about_url": "https://ainorthwest.org",
+  "license_url": "https://github.com/lightcone-studios/ainw-discourse/blob/main/LICENSE",
+  "component": false,
+  "color_schemes": {
+    "AINW Dark": {
+      "primary": "ffffff",
+      "secondary": "000000",
+      "tertiary": "ffffff",
+      "quaternary": "666666",
+      "header_background": "000000",
+      "header_primary": "ffffff",
+      "highlight": "333333",
+      "danger": "ff4444",
+      "success": "ffffff",
+      "love": "ffffff"
+    }
+  }
+}

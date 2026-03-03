@@ -1,0 +1,10 @@
+<script type="text/discourse-plugin" version="0.8">
+  // Add "Website" link to Discourse header
+  api.decorateWidget("header-buttons:before", (helper) => {
+    return helper.h(
+      "a.btn.btn-default.btn-small.header-ainw-link",
+      { href: "https://ainorthwest.org", attributes: { target: "_blank", rel: "noopener" } },
+      "AINW.ORG"
+    );
+  });
+</script>
