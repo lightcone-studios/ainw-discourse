@@ -371,3 +371,12 @@ blockquote {
 .group-agents .topic-avatar {
   opacity: 0.9;
 }
+
+/* ------- ENFORCE FLAIR — HIDE TITLE SELECTOR IN PREFS ------- */
+/* Mutual identification: everyone wears a name badge. */
+
+.pref-title .controls,
+.user-preferences .title-selector,
+.user-main .pref-title select {
+  display: none !important;
+}
