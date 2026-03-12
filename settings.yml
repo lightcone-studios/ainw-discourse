@@ -1,0 +1,4 @@
+next_event:
+  type: string
+  default: ""
+  description: "Next event — shown in pulse bar (e.g., 'Mar 22 — AGI When?')"
