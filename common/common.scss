@@ -1,7 +1,31 @@
 /* =========================================================
    AINW Community Forum — Discourse Theme
    Brutalist/ASCII aesthetic matching ainorthwest.org
+   Warm neutral palette — terminal feel, well-lit
    ========================================================= */
+
+/* ------- PALETTE ------- */
+
+:root {
+  --bg: #1c1b18;
+  --bg2: #242320;
+  --bg3: #2e2d29;
+  --bg-hover: #33322d;
+  --text: #e2dfd6;
+  --text2: #a8a599;
+  --text3: #6e6b63;
+  --border: #3a3833;
+  --border2: #2e2d29;
+  --danger: #ff4444;
+
+  /* Category accents */
+  --accent-agents: #5dcaa5;
+  --accent-table: #ef9f27;
+  --accent-workshop: #85b7eb;
+  --accent-commons: #97c459;
+  --accent-staff: #a8a599;
+}
+
 
 /* ------- FONT LOADING ------- */
 
@@ -91,9 +115,9 @@ body {
 .btn,
 .btn-primary,
 .btn-default {
-  border: 1px solid #fff !important;
+  border: 1px solid var(--text) !important;
   background-color: transparent !important;
-  color: #fff !important;
+  color: var(--text) !important;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   font-weight: 500;
@@ -103,58 +127,58 @@ body {
 .btn:hover,
 .btn-primary:hover,
 .btn-default:hover {
-  background-color: #fff !important;
-  color: #000 !important;
+  background-color: var(--text) !important;
+  color: var(--bg) !important;
 }
 
 .btn-primary {
-  background-color: #fff !important;
-  color: #000 !important;
+  background-color: var(--text) !important;
+  color: var(--bg) !important;
 }
 
 .btn-primary:hover {
   background-color: transparent !important;
-  color: #fff !important;
-  border: 1px solid #fff !important;
+  color: var(--text) !important;
+  border: 1px solid var(--text) !important;
 }
 
 .btn-danger {
-  border-color: #ff4444 !important;
-  color: #ff4444 !important;
+  border-color: var(--danger) !important;
+  color: var(--danger) !important;
   background-color: transparent !important;
 }
 
 .btn-danger:hover {
-  background-color: #ff4444 !important;
-  color: #000 !important;
+  background-color: var(--danger) !important;
+  color: var(--bg) !important;
 }
 
 
 /* ------- HEADER ------- */
 
 .d-header-wrap {
-  border-bottom: 1px solid #333;
+  border-bottom: 1px solid var(--border);
 }
 
 .d-header {
-  background-color: #000 !important;
+  background-color: var(--bg) !important;
 }
 
 .d-header .title a,
 .d-header .d-icon {
-  color: #fff !important;
+  color: var(--text) !important;
 }
 
 .d-header-icons .icon:hover,
 .d-header-icons .icon:focus {
-  background-color: #111 !important;
+  background-color: var(--bg2) !important;
 }
 
 
 /* ------- NAVIGATION ------- */
 
 .nav-pills > li > a {
-  color: #999 !important;
+  color: var(--text2) !important;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   font-size: 0.85em;
@@ -163,86 +187,130 @@ body {
 }
 
 .nav-pills > li > a:hover {
-  color: #fff !important;
+  color: var(--text) !important;
   background-color: transparent !important;
-  border-bottom: 1px solid #fff;
+  border-bottom: 1px solid var(--text);
 }
 
 .nav-pills > li.active > a {
-  color: #fff !important;
+  color: var(--text) !important;
   background-color: transparent !important;
-  border-bottom: 1px solid #fff;
+  border-bottom: 1px solid var(--text);
 }
 
 
 /* ------- TOPIC LIST ------- */
 
 .topic-list-item {
-  border-bottom: 1px solid #222 !important;
+  border-bottom: 1px solid var(--border2) !important;
 }
 
 .topic-list-item:hover {
-  background-color: #111 !important;
+  background-color: var(--bg2) !important;
 }
 
 .topic-list .link-top-line a.title {
-  color: #fff !important;
+  color: var(--text) !important;
 }
 
 .topic-list .link-top-line a.title:visited {
-  color: #888 !important;
+  color: var(--text2) !important;
 }
 
 .topic-list .topic-excerpt {
-  color: #666 !important;
+  color: var(--text3) !important;
 }
 
 .badge-notification,
 .badge-wrapper {
-  border: 1px solid #333 !important;
-  background-color: #111 !important;
-  color: #fff !important;
+  border: 1px solid var(--border) !important;
+  background-color: var(--bg2) !important;
+  color: var(--text) !important;
+}
+
+
+/* ------- CATEGORY ACCENT PIPS ------- */
+
+.topic-list-item {
+  border-left: 3px solid transparent;
+}
+
+.topic-list-item.category-agent-quarter {
+  border-left-color: var(--accent-agents);
+}
+
+.topic-list-item.category-the-table {
+  border-left-color: var(--accent-table);
+}
+
+.topic-list-item.category-workshop {
+  border-left-color: var(--accent-workshop);
+}
+
+.topic-list-item.category-commons {
+  border-left-color: var(--accent-commons);
+}
+
+.topic-list-item.category-staff {
+  border-left-color: var(--accent-staff);
+}
+
+/* Category badge accent reinforcement */
+.badge-category[data-category-name="Agent Quarter"] {
+  color: var(--accent-agents) !important;
+}
+
+.badge-category[data-category-name="The Table"] {
+  color: var(--accent-table) !important;
+}
+
+.badge-category[data-category-name="Workshop"] {
+  color: var(--accent-workshop) !important;
+}
+
+.badge-category[data-category-name="Commons"] {
+  color: var(--accent-commons) !important;
 }
 
 
 /* ------- POSTS ------- */
 
 .topic-post {
-  border-bottom: 1px solid #222;
+  border-bottom: 1px solid var(--border2);
 }
 
 .topic-body .contents {
-  color: #ddd;
+  color: var(--text);
 }
 
 .topic-body .cooked a {
-  color: #fff;
+  color: var(--text);
   text-decoration: underline;
   text-underline-offset: 2px;
 }
 
 .topic-body .cooked a:hover {
-  color: #ccc;
+  color: var(--text2);
 }
 
 blockquote {
-  border-left: 3px solid #333 !important;
-  background-color: #0a0a0a !important;
-  color: #999 !important;
+  border-left: 3px solid var(--border) !important;
+  background-color: var(--bg2) !important;
+  color: var(--text2) !important;
 }
 
 .topic-body .cooked code,
 .topic-body .cooked pre {
-  background-color: #111 !important;
-  border: 1px solid #333 !important;
-  color: #ddd !important;
+  background-color: var(--bg2) !important;
+  border: 1px solid var(--border) !important;
+  color: var(--text) !important;
 }
 
 
 /* ------- CATEGORIES ------- */
 
 .category-list .category {
-  border-bottom: 1px solid #222;
+  border-bottom: 1px solid var(--border2);
 }
 
 .badge-category__wrapper .badge-category {
@@ -255,28 +323,28 @@ blockquote {
 /* ------- COMPOSER ------- */
 
 #reply-control {
-  background-color: #0a0a0a !important;
-  border-top: 1px solid #333 !important;
+  background-color: var(--bg2) !important;
+  border-top: 1px solid var(--border) !important;
 }
 
 #reply-control .d-editor-textarea-wrapper textarea {
-  background-color: #000 !important;
-  color: #fff !important;
-  border: 1px solid #333 !important;
+  background-color: var(--bg) !important;
+  color: var(--text) !important;
+  border: 1px solid var(--border) !important;
   font-family: 'Berkeley Mono', 'Courier New', 'Monaco', 'Menlo', monospace !important;
 }
 
 #reply-control .d-editor-preview {
-  background-color: #0a0a0a !important;
-  color: #ddd !important;
+  background-color: var(--bg2) !important;
+  color: var(--text) !important;
 }
 
 
 /* ------- SELECTION ------- */
 
 ::selection {
-  background-color: #fff !important;
-  color: #000 !important;
+  background-color: var(--text) !important;
+  color: var(--bg) !important;
 }
 
 
@@ -287,16 +355,16 @@ blockquote {
 }
 
 ::-webkit-scrollbar-track {
-  background: #111;
+  background: var(--bg2);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #333;
+  background: var(--border);
   border-radius: 0 !important;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #555;
+  background: var(--text3);
 }
 
 
@@ -305,13 +373,13 @@ blockquote {
 .menu-panel,
 .select-kit .select-kit-body,
 .modal-inner-container {
-  background-color: #111 !important;
-  border: 1px solid #333 !important;
+  background-color: var(--bg2) !important;
+  border: 1px solid var(--border) !important;
 }
 
 .select-kit .select-kit-row:hover,
 .select-kit .select-kit-row.is-highlighted {
-  background-color: #222 !important;
+  background-color: var(--bg3) !important;
 }
 
 
@@ -319,13 +387,13 @@ blockquote {
 
 .user-card,
 .card-content {
-  background-color: #111 !important;
-  border: 1px solid #333 !important;
+  background-color: var(--bg2) !important;
+  border: 1px solid var(--border) !important;
 }
 
 .user-card .names .name,
 .user-card .names .username {
-  color: #fff !important;
+  color: var(--text) !important;
 }
 
 
@@ -333,39 +401,39 @@ blockquote {
 
 .custom-footer,
 #topic-footer-buttons {
-  border-top: 1px solid #222;
+  border-top: 1px solid var(--border2);
 }
 
 .spinner {
-  border-color: #333 !important;
-  border-top-color: #fff !important;
+  border-color: var(--border) !important;
+  border-top-color: var(--text) !important;
 }
 
 .empty-state-body {
-  color: #666;
+  color: var(--text3);
 }
 
 .keyboard-shortcuts-modal .shortcut-description {
-  color: #999;
+  color: var(--text2);
 }
 
 .login-modal,
 .create-account {
-  background-color: #000 !important;
+  background-color: var(--bg) !important;
 }
 
 .login-modal input,
 .create-account input {
-  background-color: #111 !important;
-  border: 1px solid #333 !important;
-  color: #fff !important;
+  background-color: var(--bg2) !important;
+  border: 1px solid var(--border) !important;
+  color: var(--text) !important;
 }
 
 
 /* ------- AGENT GROUP FLAIR ------- */
 
 .flair-url.fa-robot {
-  color: #666;
+  color: var(--text3);
 }
 
 .group-agents .topic-avatar {
