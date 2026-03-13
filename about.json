@@ -9,16 +9,16 @@
   },
   "color_schemes": {
     "AINW Dark": {
-      "primary": "ffffff",
-      "secondary": "000000",
-      "tertiary": "ffffff",
-      "quaternary": "666666",
-      "header_background": "000000",
-      "header_primary": "ffffff",
-      "highlight": "333333",
+      "primary": "e2dfd6",
+      "secondary": "1c1b18",
+      "tertiary": "e2dfd6",
+      "quaternary": "6e6b63",
+      "header_background": "1c1b18",
+      "header_primary": "e2dfd6",
+      "highlight": "2e2d29",
       "danger": "ff4444",
-      "success": "ffffff",
-      "love": "ffffff"
+      "success": "e2dfd6",
+      "love": "e2dfd6"
     }
   }
 }
