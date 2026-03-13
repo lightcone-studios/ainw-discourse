@@ -470,7 +470,7 @@ blockquote {
 
 .ainw-pulse {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 1px;
   background-color: var(--border2);
   border: 1px solid var(--border);
@@ -485,21 +485,11 @@ blockquote {
   gap: 0.25em;
 }
 
-.ainw-pulse__card--event {
-  flex-direction: row;
-  align-items: center;
-  gap: 0.75em;
-}
-
 .ainw-pulse__value {
   font-size: 1.5em;
   font-weight: 700;
   color: var(--text);
   line-height: 1;
-}
-
-.ainw-pulse__card--event .ainw-pulse__value {
-  font-size: 1.25em;
 }
 
 .ainw-pulse__label {
@@ -510,26 +500,66 @@ blockquote {
 }
 
 
+/* ------- CATEGORY BUTTONS ------- */
+
+.ainw-cat-bar {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.5em;
+  margin-bottom: 1.5em;
+}
+
+.ainw-cat-btn {
+  display: block;
+  padding: 0.6em 0.75em;
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--border);
+  background: var(--bg2);
+  color: var(--text) !important;
+  text-decoration: none !important;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-weight: 700;
+  font-size: 0.85em;
+  text-align: center;
+  transition: background-color 0.1s ease;
+}
+
+.ainw-cat-btn:hover {
+  background: var(--bg-hover);
+}
+
+.ainw-cat-btn[data-category-slug="agent-quarter"] { border-left-color: var(--accent-agents); }
+.ainw-cat-btn[data-category-slug="the-table"] { border-left-color: var(--accent-table); }
+.ainw-cat-btn[data-category-slug="workshop"] { border-left-color: var(--accent-workshop); }
+.ainw-cat-btn[data-category-slug="commons"] { border-left-color: var(--accent-commons); }
+
+
 /* ------- DASHBOARD LAYOUT ------- */
 
 .ainw-dashboard {
   display: grid;
-  grid-template-columns: 1fr 280px;
+  grid-template-columns: 2fr 1fr;
   gap: 1.5em;
   align-items: start;
 }
 
 .ainw-section-head {
-  font-size: 0.75em;
-  color: var(--text3);
+  font-size: 0.8em;
+  color: var(--text);
+  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.08em;
   margin: 0 0 0.75em 0;
   padding-bottom: 0.5em;
-  border-bottom: 1px solid var(--border2);
+  border-bottom: 1px solid var(--border);
 }
 
-.ainw-section-head--pinned {
+.ainw-section-head--all {
+  margin-top: 1.5em;
+}
+
+.ainw-section-head--events {
   margin-top: 1.5em;
 }
 
@@ -570,6 +600,7 @@ blockquote {
 
 .ainw-topic-row__title {
   color: var(--text) !important;
+  font-weight: 700;
   text-decoration: none !important;
   display: block;
   margin-bottom: 0.2em;
@@ -584,6 +615,8 @@ blockquote {
 .ainw-topic-row__meta {
   font-size: 0.8em;
   color: var(--text3);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
   display: flex;
   gap: 0.75em;
   align-items: center;
@@ -620,72 +653,60 @@ blockquote {
 }
 
 
-/* ------- SIDEBAR: LANES ------- */
+/* ------- ALL TOPICS CONTROLS ------- */
 
-.ainw-lane {
-  display: block;
-  padding: 0.75em;
-  border: 1px solid var(--border2);
-  border-left: 3px solid var(--border);
-  margin-bottom: 0.5em;
-  text-decoration: none !important;
-  transition: background-color 0.1s ease;
+.ainw-all-topics__controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.75em;
 }
 
-.ainw-lane:hover {
-  background-color: var(--bg-hover);
+.ainw-all-topics__filters {
+  display: flex;
+  gap: 0.5em;
 }
 
-/* Lane accent borders */
-.ainw-lane[data-category-slug="agent-quarter"] {
-  border-left-color: var(--accent-agents);
-}
-
-.ainw-lane[data-category-slug="the-table"] {
-  border-left-color: var(--accent-table);
-}
-
-.ainw-lane[data-category-slug="workshop"] {
-  border-left-color: var(--accent-workshop);
-}
-
-.ainw-lane[data-category-slug="commons"] {
-  border-left-color: var(--accent-commons);
-}
-
-.ainw-lane[data-category-slug="staff"] {
-  border-left-color: var(--accent-staff);
-}
-
-.ainw-lane__name {
-  display: block;
-  color: var(--text);
-  font-weight: 700;
+.ainw-filter-btn {
+  padding: 0.3em 0.6em;
+  font-size: 0.75em;
   text-transform: uppercase;
-  letter-spacing: 0.03em;
-  font-size: 0.85em;
-  margin-bottom: 0.25em;
+  letter-spacing: 0.05em;
+  color: var(--text3) !important;
+  text-decoration: none !important;
+  border: 1px solid var(--border2);
+  transition: all 0.1s ease;
 }
 
-.ainw-lane__desc {
-  display: block;
-  color: var(--text3);
-  font-size: 0.75em;
-  line-height: 1.4;
-  margin-bottom: 0.3em;
-  /* Truncate long descriptions */
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
+.ainw-filter-btn:hover {
+  color: var(--text) !important;
+  border-color: var(--border);
 }
 
-.ainw-lane__stats {
-  display: block;
-  color: var(--text2);
-  font-size: 0.75em;
+.ainw-filter-btn--active {
+  color: var(--text) !important;
+  border-color: var(--border);
+  background: var(--bg2);
 }
+
+.ainw-all-topics__search {
+  font-size: 0.75em;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text3) !important;
+  text-decoration: none !important;
+  padding: 0.3em 0.6em;
+  border: 1px solid var(--border2);
+  transition: all 0.1s ease;
+}
+
+.ainw-all-topics__search:hover {
+  color: var(--text) !important;
+  border-color: var(--border);
+}
+
+
+/* ------- SIDEBAR ------- */
 
 /* Pinned topics */
 .ainw-pinned {
@@ -701,11 +722,46 @@ blockquote {
   color: var(--text) !important;
 }
 
+.ainw-events__link {
+  display: block;
+  padding: 0.5em 0.75em;
+  margin-bottom: 0.5em;
+  border: 1px solid var(--border);
+  background: var(--bg2);
+  color: var(--text) !important;
+  text-decoration: none !important;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 0.8em;
+  font-weight: 700;
+  text-align: center;
+  transition: background-color 0.1s ease;
+}
+
+.ainw-events__link:hover {
+  background: var(--bg-hover);
+}
+
+/* Events embed */
+.ainw-events {
+  border: 1px solid var(--border);
+  overflow: hidden;
+}
+
+.ainw-events iframe {
+  display: block;
+  border: none;
+}
+
 
 /* ------- MOBILE RESPONSIVE ------- */
 
 @media (max-width: 768px) {
   .ainw-pulse {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .ainw-cat-bar {
     grid-template-columns: repeat(2, 1fr);
   }
 

@@ -80,10 +80,6 @@ export default class AinwHomepage extends Component {
     return this.currentUser?.unread_notifications || 0;
   }
 
-  get nextEvent() {
-    return settings.next_event || "";
-  }
-
   // Pre-compute display data so templates stay simple
   get displayNewTopics() {
     return this._formatTopics(this.newTopics);
@@ -98,29 +94,18 @@ export default class AinwHomepage extends Component {
   }
 
   get displayCategories() {
-    const weekAgo = new Date();
-    weekAgo.setDate(weekAgo.getDate() - 7);
-
     return Category.list()
-      .filter((cat) => !cat.parent_category_id)
-      .map((cat) => {
-        const catTopics = this.topics.filter(
-          (t) => t.category_id === cat.id
-        );
-        return {
-          id: cat.id,
-          name: cat.name,
-          slug: cat.slug,
-          description: cat.description_excerpt || "",
-          topicsThisWeek: catTopics.filter(
-            (t) => new Date(t.created_at) > weekAgo
-          ).length,
-          newSinceVisit: catTopics.filter(
-            (t) => new Date(t.created_at) > this.lastSeenAt
-          ).length,
-          url: `/c/${cat.slug}/${cat.id}`,
-        };
-      });
+      .filter((cat) => !cat.parent_category_id && cat.slug !== "staff")
+      .map((cat) => ({
+        id: cat.id,
+        name: cat.name,
+        slug: cat.slug,
+        url: `/c/${cat.slug}/${cat.id}`,
+      }));
+  }
+
+  get displayAllTopics() {
+    return this._formatTopics(this.topics);
   }
 
   _formatTopics(list) {
@@ -177,15 +162,20 @@ export default class AinwHomepage extends Component {
                 <span class="ainw-pulse__label">Unread</span>
               </div>
             {{/if}}
-            {{#if this.nextEvent}}
-              <div class="ainw-pulse__card ainw-pulse__card--event">
-                <span class="ainw-pulse__value">→</span>
-                <span class="ainw-pulse__label">{{this.nextEvent}}</span>
-              </div>
-            {{/if}}
           </div>
 
-          {{!-- Dashboard: Feed + Sidebar --}}
+          {{!-- Category Buttons --}}
+          <div class="ainw-cat-bar">
+            {{#each this.displayCategories as |cat|}}
+              <a
+                class="ainw-cat-btn"
+                href={{cat.url}}
+                data-category-slug={{cat.slug}}
+              >{{cat.name}}</a>
+            {{/each}}
+          </div>
+
+          {{!-- Two Column: 2/3 Feed + 1/3 Sidebar --}}
           <div class="ainw-dashboard">
 
             <div class="ainw-dashboard__feed">
@@ -242,33 +232,65 @@ export default class AinwHomepage extends Component {
                   {{/each}}
                 </div>
               {{/if}}
+
+              {{!-- All Topics --}}
+              <h3 class="ainw-section-head ainw-section-head--all">All Topics</h3>
+              <div class="ainw-all-topics__controls">
+                <div class="ainw-all-topics__filters">
+                  <a class="ainw-filter-btn ainw-filter-btn--active" href="/latest">Latest</a>
+                  <a class="ainw-filter-btn" href="/hot">Hot</a>
+                  <a class="ainw-filter-btn" href="/new">New</a>
+                  <a class="ainw-filter-btn" href="/unread">Unread</a>
+                </div>
+                <a class="ainw-all-topics__search" href="/search">Search</a>
+              </div>
+              {{#each this.displayAllTopics as |item|}}
+                <div
+                  class="ainw-topic-row"
+                  data-category-slug={{item.categorySlug}}
+                >
+                  <a class="ainw-topic-row__title" href={{item.url}}>
+                    {{item.title}}
+                  </a>
+                  <div class="ainw-topic-row__meta">
+                    <a
+                      class="ainw-topic-row__cat"
+                      href={{item.categoryUrl}}
+                    >{{item.categoryName}}</a>
+                    {{#if item.replyCount}}
+                      <span class="ainw-topic-row__replies">
+                        {{item.replyCount}} replies
+                      </span>
+                    {{/if}}
+                    <span class="ainw-topic-row__time">{{item.time}}</span>
+                  </div>
+                </div>
+              {{/each}}
             </div>
 
             <aside class="ainw-dashboard__sidebar">
-              <h3 class="ainw-section-head">Lanes</h3>
-              {{#each this.displayCategories as |cat|}}
-                <a class="ainw-lane" href={{cat.url}} data-category-slug={{cat.slug}}>
-                  <span class="ainw-lane__name">{{cat.name}}</span>
-                  {{#if cat.description}}
-                    <span class="ainw-lane__desc">{{cat.description}}</span>
-                  {{/if}}
-                  <span class="ainw-lane__stats">
-                    {{cat.topicsThisWeek}}/wk
-                    {{#if cat.newSinceVisit}}
-                      · {{cat.newSinceVisit}} new
-                    {{/if}}
-                  </span>
-                </a>
-              {{/each}}
-
               {{#if this.displayPinnedTopics.length}}
-                <h3 class="ainw-section-head ainw-section-head--pinned">Pinned</h3>
+                <h3 class="ainw-section-head">Pinned</h3>
                 {{#each this.displayPinnedTopics as |item|}}
                   <a class="ainw-pinned" href={{item.url}}>
                     {{item.title}}
                   </a>
                 {{/each}}
               {{/if}}
+
+              <h3 class="ainw-section-head ainw-section-head--events">Events</h3>
+              <a class="ainw-events__link" href="https://luma.com/ainw" target="_blank" rel="noopener">View Full Calendar</a>
+              <div class="ainw-events">
+                <iframe
+                  src="https://luma.com/embed/calendar/cal-rcIqzQGYrDXSlIh/events"
+                  width="100%"
+                  height="700"
+                  frameborder="0"
+                  allowfullscreen=""
+                  aria-hidden="false"
+                  tabindex="0"
+                ></iframe>
+              </div>
             </aside>
 
           </div>
