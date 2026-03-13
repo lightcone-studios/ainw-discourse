@@ -112,11 +112,17 @@ export default class AinwHomepage extends Component {
       }));
   }
 
-  get displayAllTopics() {
-    return this._formatTopics(this.topics.slice(0, 3));
+  get hotTopics() {
+    return [...this.topics]
+      .sort((a, b) => (b.posts_count || 0) - (a.posts_count || 0))
+      .slice(0, 3);
   }
 
-  get hasMoreAllTopics() {
+  get displayHotTopics() {
+    return this._formatTopics(this.hotTopics);
+  }
+
+  get hasMoreHotTopics() {
     return this.topics.length > 3;
   }
 
@@ -251,18 +257,9 @@ export default class AinwHomepage extends Component {
                 </div>
               {{/if}}
 
-              {{!-- All Topics --}}
-              <h3 class="ainw-section-head ainw-section-head--all">All Topics</h3>
-              <div class="ainw-all-topics__controls">
-                <div class="ainw-all-topics__filters">
-                  <a class="ainw-filter-btn ainw-filter-btn--active" href="/latest">Latest</a>
-                  <a class="ainw-filter-btn" href="/hot">Hot</a>
-                  <a class="ainw-filter-btn" href="/new">New</a>
-                  <a class="ainw-filter-btn" href="/unread">Unread</a>
-                </div>
-                <a class="ainw-all-topics__search" href="/search">Search</a>
-              </div>
-              {{#each this.displayAllTopics as |item|}}
+              {{!-- Hot Topics --}}
+              <h3 class="ainw-section-head ainw-section-head--hot">Hot</h3>
+              {{#each this.displayHotTopics as |item|}}
                 <div
                   class="ainw-topic-row"
                   data-category-slug={{item.categorySlug}}
@@ -284,8 +281,8 @@ export default class AinwHomepage extends Component {
                   </div>
                 </div>
               {{/each}}
-              {{#if this.hasMoreAllTopics}}
-                <a class="ainw-read-more" href="/latest">Read More</a>
+              {{#if this.hasMoreHotTopics}}
+                <a class="ainw-read-more" href="/hot">Read More</a>
               {{/if}}
             </div>
 
