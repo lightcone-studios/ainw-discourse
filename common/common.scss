@@ -652,6 +652,27 @@ blockquote {
   opacity: 1;
 }
 
+/* Read More button */
+.ainw-read-more {
+  display: block;
+  padding: 0.5em 0.75em;
+  margin-top: 0.5em;
+  border: 1px solid var(--border);
+  background: var(--bg2);
+  color: var(--text) !important;
+  text-decoration: none !important;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 0.8em;
+  font-weight: 700;
+  text-align: center;
+  transition: background-color 0.1s ease;
+}
+
+.ainw-read-more:hover {
+  background: var(--bg-hover);
+}
+
 
 /* ------- ALL TOPICS CONTROLS ------- */
 
@@ -756,15 +777,7 @@ blockquote {
 
 /* ------- MOBILE RESPONSIVE ------- */
 
-@media (max-width: 768px) {
-  .ainw-pulse {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .ainw-cat-bar {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
+@media (max-width: 1000px) {
   .ainw-dashboard {
     grid-template-columns: 1fr;
   }
@@ -773,4 +786,60 @@ blockquote {
     border-top: 1px solid var(--border);
     padding-top: 1em;
   }
+}
+
+@media (max-width: 768px) {
+  .ainw-pulse {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .ainw-cat-bar {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+
+/* ------- CATEGORY PAGE ACCENTS ------- */
+
+body.category-agent-quarter .category-heading h2,
+body.category-agent-quarter .badge-category {
+  color: var(--accent-agents) !important;
+}
+
+body.category-the-table .category-heading h2,
+body.category-the-table .badge-category {
+  color: var(--accent-table) !important;
+}
+
+body.category-workshop .category-heading h2,
+body.category-workshop .badge-category {
+  color: var(--accent-workshop) !important;
+}
+
+body.category-commons .category-heading h2,
+body.category-commons .badge-category {
+  color: var(--accent-commons) !important;
+}
+
+/* Category page header accent bar */
+body[class*="category-"] .category-heading {
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 0.75em;
+  margin-bottom: 1em;
+}
+
+body.category-agent-quarter .category-heading {
+  border-bottom-color: var(--accent-agents);
+}
+
+body.category-the-table .category-heading {
+  border-bottom-color: var(--accent-table);
+}
+
+body.category-workshop .category-heading {
+  border-bottom-color: var(--accent-workshop);
+}
+
+body.category-commons .category-heading {
+  border-bottom-color: var(--accent-commons);
 }
