@@ -688,19 +688,7 @@ blockquote {
   line-height: normal;
 }
 
-/* Rename "Latest" nav pill to "HOME" */
-.nav-pills > li > a[href="/latest"] {
-  font-size: 0;
-  line-height: 0;
-}
-
-.nav-pills > li > a[href="/latest"]::after {
-  content: "HOME";
-  font-size: 0.85em;
-  line-height: normal;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
+/* "Latest" nav pill renamed to "Home" via locales/en.yml */
 
 /* Hide category & tag dropdowns above topic list */
 .navigation-container .category-breadcrumb {
