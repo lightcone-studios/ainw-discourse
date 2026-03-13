@@ -80,13 +80,21 @@ export default class AinwHomepage extends Component {
     return this.currentUser?.unread_notifications || 0;
   }
 
-  // Pre-compute display data so templates stay simple
+  // Pre-compute display data — cap each section at 3
   get displayNewTopics() {
-    return this._formatTopics(this.newTopics);
+    return this._formatTopics(this.newTopics.slice(0, 3));
+  }
+
+  get hasMoreNewTopics() {
+    return this.newTopics.length > 3;
   }
 
   get displayEarlierTopics() {
-    return this._formatTopics(this.earlierTopics);
+    return this._formatTopics(this.earlierTopics.slice(0, 3));
+  }
+
+  get hasMoreEarlierTopics() {
+    return this.earlierTopics.length > 3;
   }
 
   get displayPinnedTopics() {
@@ -95,7 +103,7 @@ export default class AinwHomepage extends Component {
 
   get displayCategories() {
     return Category.list()
-      .filter((cat) => !cat.parent_category_id && cat.slug !== "staff")
+      .filter((cat) => !cat.parent_category_id && cat.slug !== "staff" && cat.slug !== "uncategorized")
       .map((cat) => ({
         id: cat.id,
         name: cat.name,
@@ -105,7 +113,11 @@ export default class AinwHomepage extends Component {
   }
 
   get displayAllTopics() {
-    return this._formatTopics(this.topics);
+    return this._formatTopics(this.topics.slice(0, 3));
+  }
+
+  get hasMoreAllTopics() {
+    return this.topics.length > 3;
   }
 
   _formatTopics(list) {
@@ -203,6 +215,9 @@ export default class AinwHomepage extends Component {
                     </div>
                   </div>
                 {{/each}}
+                {{#if this.hasMoreNewTopics}}
+                  <a class="ainw-read-more" href="/new">Read More</a>
+                {{/if}}
               {{/if}}
 
               {{#if this.displayEarlierTopics.length}}
@@ -230,6 +245,9 @@ export default class AinwHomepage extends Component {
                       </div>
                     </div>
                   {{/each}}
+                {{#if this.hasMoreEarlierTopics}}
+                  <a class="ainw-read-more" href="/latest">Read More</a>
+                {{/if}}
                 </div>
               {{/if}}
 
@@ -266,6 +284,9 @@ export default class AinwHomepage extends Component {
                   </div>
                 </div>
               {{/each}}
+              {{#if this.hasMoreAllTopics}}
+                <a class="ainw-read-more" href="/latest">Read More</a>
+              {{/if}}
             </div>
 
             <aside class="ainw-dashboard__sidebar">
