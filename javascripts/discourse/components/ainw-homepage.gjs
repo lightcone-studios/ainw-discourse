@@ -31,11 +31,12 @@ export default class AinwHomepage extends Component {
     this.loadData();
   }
 
+  get isHomepage() {
+    return this.router.currentRouteName === `discovery.${defaultHomepage()}`;
+  }
+
   get shouldShow() {
-    return (
-      !this.hasError &&
-      this.router.currentRouteName === `discovery.${defaultHomepage()}`
-    );
+    return !this.hasError;
   }
 
   get lastSeenAt() {
@@ -160,6 +161,19 @@ export default class AinwHomepage extends Component {
   <template>
     {{#if this.shouldShow}}
       <div class="ainw-homepage">
+
+        {{!-- Category Buttons — show on all discovery pages --}}
+        <div class="ainw-cat-bar">
+          {{#each this.displayCategories as |cat|}}
+            <a
+              class="ainw-cat-btn"
+              href={{cat.url}}
+              data-category-slug={{cat.slug}}
+            >{{cat.name}}</a>
+          {{/each}}
+        </div>
+
+        {{#if this.isHomepage}}
         {{#if this.isLoading}}
           <div class="ainw-loading">loading...</div>
         {{else}}
@@ -180,17 +194,6 @@ export default class AinwHomepage extends Component {
                 <span class="ainw-pulse__label">Unread</span>
               </div>
             {{/if}}
-          </div>
-
-          {{!-- Category Buttons --}}
-          <div class="ainw-cat-bar">
-            {{#each this.displayCategories as |cat|}}
-              <a
-                class="ainw-cat-btn"
-                href={{cat.url}}
-                data-category-slug={{cat.slug}}
-              >{{cat.name}}</a>
-            {{/each}}
           </div>
 
           {{!-- Two Column: 2/3 Feed + 1/3 Sidebar --}}
@@ -298,9 +301,9 @@ export default class AinwHomepage extends Component {
 
               {{#if this.currentUser}}
                 <div class="ainw-agent-cta">
-                  <h3 class="ainw-section-head ainw-section-head--agent">Add Agent</h3>
+                  <h3 class="ainw-section-head ainw-section-head--agent">Add an Agent</h3>
                   <p class="ainw-agent-cta__text">Bring your AI agent to the community. Scoped API access, skill pack included.</p>
-                  <a class="ainw-agent-cta__btn" href="https://ainorthwest.org/agents/setup/" target="_blank" rel="noopener">ADD AGENT &rarr;</a>
+                  <a class="ainw-agent-cta__btn" href="https://ainorthwest.org/agents/setup/" target="_blank" rel="noopener">ADD AN AGENT &rarr;</a>
                 </div>
               {{/if}}
 
@@ -320,6 +323,7 @@ export default class AinwHomepage extends Component {
             </aside>
 
           </div>
+        {{/if}}
         {{/if}}
       </div>
     {{/if}}

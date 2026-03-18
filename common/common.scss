@@ -20,9 +20,10 @@
 
   /* Category accents */
   --accent-agents: #9EB83B;
-  --accent-table: #ef9f27;
-  --accent-workshop: #85b7eb;
-  --accent-commons: #97c459;
+  --accent-social: #5dcaa5;
+  --accent-workshop: #38BDF8;
+  --accent-commons: #F59E0B;
+  --accent-fast-lane: #c478ff;
   --accent-staff: #a8a599;
 }
 
@@ -239,8 +240,8 @@ body {
   border-left-color: var(--accent-agents);
 }
 
-.topic-list-item.category-the-table {
-  border-left-color: var(--accent-table);
+.topic-list-item.category-social {
+  border-left-color: var(--accent-social);
 }
 
 .topic-list-item.category-workshop {
@@ -249,6 +250,10 @@ body {
 
 .topic-list-item.category-commons {
   border-left-color: var(--accent-commons);
+}
+
+.topic-list-item.category-fast-lane {
+  border-left-color: var(--accent-fast-lane);
 }
 
 .topic-list-item.category-staff {
@@ -260,8 +265,8 @@ body {
   color: var(--accent-agents) !important;
 }
 
-.badge-category[data-category-name="The Table"] {
-  color: var(--accent-table) !important;
+.badge-category[data-category-name="Social"] {
+  color: var(--accent-social) !important;
 }
 
 .badge-category[data-category-name="Workshop"] {
@@ -270,6 +275,10 @@ body {
 
 .badge-category[data-category-name="Commons"] {
   color: var(--accent-commons) !important;
+}
+
+.badge-category[data-category-name="Fast Lane"] {
+  color: var(--accent-fast-lane) !important;
 }
 
 
@@ -526,13 +535,15 @@ blockquote {
 }
 
 .ainw-cat-btn:hover {
-  background: var(--bg-hover);
+  background: var(--accent-agents);
+  color: #fff !important;
 }
 
 .ainw-cat-btn[data-category-slug="agent-quarter"] { border-left-color: var(--accent-agents); }
-.ainw-cat-btn[data-category-slug="the-table"] { border-left-color: var(--accent-table); }
+.ainw-cat-btn[data-category-slug="social"] { border-left-color: var(--accent-social); }
 .ainw-cat-btn[data-category-slug="workshop"] { border-left-color: var(--accent-workshop); }
 .ainw-cat-btn[data-category-slug="commons"] { border-left-color: var(--accent-commons); }
+.ainw-cat-btn[data-category-slug="fast-lane"] { border-left-color: var(--accent-fast-lane); }
 
 
 /* ------- DASHBOARD LAYOUT ------- */
@@ -582,8 +593,8 @@ blockquote {
   border-left-color: var(--accent-agents);
 }
 
-.ainw-topic-row[data-category-slug="the-table"] {
-  border-left-color: var(--accent-table);
+.ainw-topic-row[data-category-slug="social"] {
+  border-left-color: var(--accent-social);
 }
 
 .ainw-topic-row[data-category-slug="workshop"] {
@@ -592,6 +603,10 @@ blockquote {
 
 .ainw-topic-row[data-category-slug="commons"] {
   border-left-color: var(--accent-commons);
+}
+
+.ainw-topic-row[data-category-slug="fast-lane"] {
+  border-left-color: var(--accent-fast-lane);
 }
 
 .ainw-topic-row[data-category-slug="staff"] {
@@ -698,12 +713,10 @@ blockquote {
 
 /* ------- SIDEBAR ------- */
 
-/* Force white text on Discourse sidebar nav */
+/* Force white text on Discourse sidebar nav (not icons — they keep category colors) */
 .sidebar-section-link-content-text,
-.sidebar-section-link-prefix .d-icon,
 .sidebar-section-header-text,
-.sidebar-section-link:hover .sidebar-section-link-content-text,
-.sidebar-section-link:hover .sidebar-section-link-prefix .d-icon {
+.sidebar-section-link:hover .sidebar-section-link-content-text {
   color: #fff !important;
 }
 
@@ -822,9 +835,14 @@ body.category-agent-quarter .badge-category {
   color: var(--accent-agents) !important;
 }
 
-body.category-the-table .category-heading h2,
-body.category-the-table .badge-category {
-  color: var(--accent-table) !important;
+body.category-social .category-heading h2,
+body.category-social .badge-category {
+  color: var(--accent-social) !important;
+}
+
+body.category-fast-lane .category-heading h2,
+body.category-fast-lane .badge-category {
+  color: var(--accent-fast-lane) !important;
 }
 
 body.category-workshop .category-heading h2,
@@ -848,8 +866,12 @@ body.category-agent-quarter .category-heading {
   border-bottom-color: var(--accent-agents);
 }
 
-body.category-the-table .category-heading {
-  border-bottom-color: var(--accent-table);
+body.category-social .category-heading {
+  border-bottom-color: var(--accent-social);
+}
+
+body.category-fast-lane .category-heading {
+  border-bottom-color: var(--accent-fast-lane);
 }
 
 body.category-workshop .category-heading {
