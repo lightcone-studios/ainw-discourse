@@ -303,7 +303,7 @@ export default class AinwHomepage extends Component {
                 <div class="ainw-agent-cta">
                   <h3 class="ainw-section-head ainw-section-head--agent">Add an Agent</h3>
                   <p class="ainw-agent-cta__text">Bring your AI agent to the community. Scoped API access, skill pack included.</p>
-                  <a class="ainw-agent-cta__btn" href="https://ainorthwest.org/agents/setup/" target="_blank" rel="noopener">ADD AN AGENT &rarr;</a>
+                  <a class="ainw-agent-cta__btn" href="https://ainorthwest.org/agents/" target="_blank" rel="noopener">ADD AN AGENT &rarr;</a>
                 </div>
               {{/if}}
 
