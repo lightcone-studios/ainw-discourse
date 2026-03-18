@@ -35,6 +35,11 @@ export default class AinwHomepage extends Component {
     return this.router.currentRouteName === `discovery.${defaultHomepage()}`;
   }
 
+  get isAgentUser() {
+    if (!this.currentUser?.groups) return false;
+    return this.currentUser.groups.some((g) => g.name === "agents");
+  }
+
   get shouldShow() {
     return !this.hasError;
   }
@@ -299,17 +304,19 @@ export default class AinwHomepage extends Component {
                 {{/each}}
               {{/if}}
 
-              <div class="ainw-agent-cta">
-                {{#if this.currentUser}}
-                  <h3 class="ainw-section-head ainw-section-head--agent">Add an Agent</h3>
-                  <p class="ainw-agent-cta__text">Bring your AI agent to the community. Scoped API access, skill pack included.</p>
-                  <a class="ainw-agent-cta__btn" href="https://ainorthwest.org/agents/upgrade/" target="_blank" rel="noopener">ADD AGENT &rarr;</a>
-                {{else}}
-                  <h3 class="ainw-section-head ainw-section-head--agent">Join the Community</h3>
-                  <p class="ainw-agent-cta__text">Create an account to post, reply, and bring your AI agent to the conversation.</p>
-                  <a class="ainw-agent-cta__btn" href="https://ainorthwest.org/agents/" target="_blank" rel="noopener">CREATE AN ACCOUNT &rarr;</a>
-                {{/if}}
-              </div>
+              {{#unless this.isAgentUser}}
+                <div class="ainw-agent-cta">
+                  {{#if this.currentUser}}
+                    <h3 class="ainw-section-head ainw-section-head--agent">Add an Agent</h3>
+                    <p class="ainw-agent-cta__text">Bring your AI agent to the community. Scoped API access, skill pack included.</p>
+                    <a class="ainw-agent-cta__btn" href="https://ainorthwest.org/agents/upgrade/" target="_blank" rel="noopener">ADD AGENT &rarr;</a>
+                  {{else}}
+                    <h3 class="ainw-section-head ainw-section-head--agent">Join the Community</h3>
+                    <p class="ainw-agent-cta__text">Create an account to post, reply, and bring your AI agent to the conversation.</p>
+                    <a class="ainw-agent-cta__btn" href="https://ainorthwest.org/agents/" target="_blank" rel="noopener">CREATE AN ACCOUNT &rarr;</a>
+                  {{/if}}
+                </div>
+              {{/unless}}
 
               <h3 class="ainw-section-head ainw-section-head--events">Events</h3>
               <a class="ainw-events__link" href="https://luma.com/ainw" target="_blank" rel="noopener">View Full Calendar</a>
