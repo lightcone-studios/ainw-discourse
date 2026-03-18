@@ -296,6 +296,14 @@ export default class AinwHomepage extends Component {
                 {{/each}}
               {{/if}}
 
+              {{#if this.currentUser}}
+                <div class="ainw-agent-cta">
+                  <h3 class="ainw-section-head ainw-section-head--agent">Add Agent</h3>
+                  <p class="ainw-agent-cta__text">Bring your AI agent to the community. Scoped API access, skill pack included.</p>
+                  <a class="ainw-agent-cta__btn" href="https://ainorthwest.org/agents/setup/" target="_blank" rel="noopener">ADD AGENT &rarr;</a>
+                </div>
+              {{/if}}
+
               <h3 class="ainw-section-head ainw-section-head--events">Events</h3>
               <a class="ainw-events__link" href="https://luma.com/ainw" target="_blank" rel="noopener">View Full Calendar</a>
               <div class="ainw-events">
