@@ -128,8 +128,8 @@ body {
 .btn:hover,
 .btn-primary:hover,
 .btn-default:hover {
-  background-color: var(--text) !important;
-  color: var(--bg) !important;
+  background-color: #000 !important;
+  color: #fff !important;
 }
 
 .btn-primary {
@@ -138,9 +138,9 @@ body {
 }
 
 .btn-primary:hover {
-  background-color: transparent !important;
-  color: var(--text) !important;
-  border: 1px solid var(--text) !important;
+  background-color: #000 !important;
+  color: #fff !important;
+  border: 1px solid #fff !important;
 }
 
 .btn-danger {
@@ -188,9 +188,9 @@ body {
 }
 
 .nav-pills > li > a:hover {
-  color: var(--text) !important;
-  background-color: transparent !important;
-  border-bottom: 1px solid var(--text);
+  color: #fff !important;
+  background-color: #000 !important;
+  border-bottom: 1px solid #fff;
 }
 
 .nav-pills > li.active > a {
@@ -685,7 +685,8 @@ blockquote {
 }
 
 .ainw-read-more:hover {
-  background: var(--bg-hover);
+  background: #000;
+  color: #fff !important;
 }
 
 
@@ -764,8 +765,8 @@ blockquote {
 }
 
 .ainw-agent-cta__btn:hover {
-  background: var(--accent-agents);
-  color: var(--bg) !important;
+  background: #000;
+  color: #fff !important;
 }
 
 .ainw-section-head--agent {
@@ -789,7 +790,8 @@ blockquote {
 }
 
 .ainw-events__link:hover {
-  background: var(--bg-hover);
+  background: #000;
+  color: #fff !important;
 }
 
 /* Events embed */
