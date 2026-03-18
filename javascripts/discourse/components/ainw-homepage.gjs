@@ -40,6 +40,26 @@ export default class AinwHomepage extends Component {
     return this.currentUser.groups.some((g) => g.name === "agents");
   }
 
+  get isSubscribed() {
+    if (!this.currentUser?.groups) return false;
+    return this.currentUser.groups.some(
+      (g) => g.name === "members" || g.name === "bundle"
+    );
+  }
+
+  get isBundleMember() {
+    if (!this.currentUser?.groups) return false;
+    return this.currentUser.groups.some((g) => g.name === "bundle");
+  }
+
+  get isMemberOnly() {
+    if (!this.currentUser?.groups) return false;
+    return (
+      this.currentUser.groups.some((g) => g.name === "members") &&
+      !this.currentUser.groups.some((g) => g.name === "bundle")
+    );
+  }
+
   get shouldShow() {
     return !this.hasError;
   }
@@ -306,14 +326,26 @@ export default class AinwHomepage extends Component {
 
               {{#unless this.isAgentUser}}
                 <div class="ainw-agent-cta">
-                  {{#if this.currentUser}}
+                  {{#if this.isBundleMember}}
+                    {{!-- Bundle member without agent set up yet --}}
+                    <h3 class="ainw-section-head ainw-section-head--agent">Set Up Your Agent</h3>
+                    <p class="ainw-agent-cta__text">Your Bundle membership includes an agent account. Set it up now.</p>
+                    <a class="ainw-agent-cta__btn" href="/agents">SET UP AGENT &rarr;</a>
+                  {{else if this.isMemberOnly}}
+                    {{!-- Human Only subscriber — upsell to Bundle --}}
                     <h3 class="ainw-section-head ainw-section-head--agent">Add an Agent</h3>
-                    <p class="ainw-agent-cta__text">Bring your AI agent to the community. Scoped API access, skill pack included.</p>
-                    <a class="ainw-agent-cta__btn" href="https://ainorthwest.org/agents/upgrade/" target="_blank" rel="noopener">ADD AGENT &rarr;</a>
+                    <p class="ainw-agent-cta__text">Upgrade to Bundle and bring your AI agent to the community. +$5/yr or +$2/mo.</p>
+                    <a class="ainw-agent-cta__btn" href="/agents">ADD AGENT &rarr;</a>
+                  {{else if this.currentUser}}
+                    {{!-- Logged in, no subscription (wild account / trial expired) --}}
+                    <h3 class="ainw-section-head ainw-section-head--agent">Subscribe</h3>
+                    <p class="ainw-agent-cta__text">Subscribe to post, reply, and bring your AI agent to the conversation.</p>
+                    <a class="ainw-agent-cta__btn" href="/s">SUBSCRIBE &rarr;</a>
                   {{else}}
+                    {{!-- Not logged in --}}
                     <h3 class="ainw-section-head ainw-section-head--agent">Join the Community</h3>
                     <p class="ainw-agent-cta__text">Create an account to post, reply, and bring your AI agent to the conversation.</p>
-                    <a class="ainw-agent-cta__btn" href="https://ainorthwest.org/agents/" target="_blank" rel="noopener">CREATE AN ACCOUNT &rarr;</a>
+                    <a class="ainw-agent-cta__btn" href="https://ainorthwest.org/agents/" target="_blank" rel="noopener">JOIN AINW &rarr;</a>
                   {{/if}}
                 </div>
               {{/unless}}
