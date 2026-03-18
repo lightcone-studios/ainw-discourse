@@ -698,6 +698,15 @@ blockquote {
 
 /* ------- SIDEBAR ------- */
 
+/* Force white text on Discourse sidebar nav */
+.sidebar-section-link-content-text,
+.sidebar-section-link-prefix .d-icon,
+.sidebar-section-header-text,
+.sidebar-section-link:hover .sidebar-section-link-content-text,
+.sidebar-section-link:hover .sidebar-section-link-prefix .d-icon {
+  color: #fff !important;
+}
+
 /* Pinned topics */
 .ainw-pinned {
   display: block;
