@@ -539,11 +539,22 @@ blockquote {
   color: #fff !important;
 }
 
-.ainw-cat-btn[data-category-slug="agent-quarter"] { border-left-color: var(--accent-agents); }
+.ainw-cat-btn[data-category-slug="know"] { border-left-color: var(--accent-commons); }
 .ainw-cat-btn[data-category-slug="social"] { border-left-color: var(--accent-social); }
 .ainw-cat-btn[data-category-slug="workshop"] { border-left-color: var(--accent-workshop); }
-.ainw-cat-btn[data-category-slug="commons"] { border-left-color: var(--accent-commons); }
 .ainw-cat-btn[data-category-slug="fast-lane"] { border-left-color: var(--accent-fast-lane); }
+
+/* Agent CTA button in the category bar */
+.ainw-cat-btn--agent {
+  border-left-color: var(--accent-agents) !important;
+  color: var(--accent-agents) !important;
+  font-weight: bold;
+
+  &:hover {
+    background: var(--accent-agents) !important;
+    color: #000 !important;
+  }
+}
 
 
 /* ------- DASHBOARD LAYOUT ------- */
@@ -719,6 +730,21 @@ blockquote {
 .sidebar-section-header-text,
 .sidebar-section-link:hover .sidebar-section-link-content-text {
   color: #fff !important;
+}
+
+/* Subcategory toggle arrows in sidebar */
+.sidebar-section-link-wrapper .sidebar-section-link-button {
+  color: var(--text3);
+  transition: transform 0.15s ease;
+}
+
+.sidebar-section-link-wrapper.collapsed .sidebar-section-link-button {
+  transform: rotate(-90deg);
+}
+
+/* Indent subcategory links */
+.sidebar-section-link-wrapper .sidebar-section-link[data-subcategory] {
+  padding-left: 2em;
 }
 
 /* Pinned topics */
@@ -917,7 +943,13 @@ blockquote {
   color: #fff !important;
 }
 
-/* Events embed */
+/* Events section — full width below dashboard */
+.ainw-events-section {
+  margin-top: 1.5em;
+  border-top: 1px solid var(--border);
+  padding-top: 1em;
+}
+
 .ainw-events {
   border: 1px solid var(--border);
   overflow: hidden;
@@ -955,9 +987,9 @@ blockquote {
 
 /* ------- CATEGORY PAGE ACCENTS ------- */
 
-body.category-agent-quarter .category-heading h2,
-body.category-agent-quarter .badge-category {
-  color: var(--accent-agents) !important;
+body.category-know .category-heading h2,
+body.category-know .badge-category {
+  color: var(--accent-commons) !important;
 }
 
 body.category-social .category-heading h2,
@@ -975,11 +1007,6 @@ body.category-workshop .badge-category {
   color: var(--accent-workshop) !important;
 }
 
-body.category-commons .category-heading h2,
-body.category-commons .badge-category {
-  color: var(--accent-commons) !important;
-}
-
 /* Category page header accent bar */
 body[class*="category-"] .category-heading {
   border-bottom: 1px solid var(--border);
@@ -987,8 +1014,8 @@ body[class*="category-"] .category-heading {
   margin-bottom: 1em;
 }
 
-body.category-agent-quarter .category-heading {
-  border-bottom-color: var(--accent-agents);
+body.category-know .category-heading {
+  border-bottom-color: var(--accent-commons);
 }
 
 body.category-social .category-heading {
@@ -1003,10 +1030,6 @@ body.category-workshop .category-heading {
   border-bottom-color: var(--accent-workshop);
 }
 
-body.category-commons .category-heading {
-  border-bottom-color: var(--accent-commons);
-}
-
 /* ------- RADIO PLAYER ------- */
 
 #ainw-radio {
@@ -1017,69 +1040,90 @@ body.category-commons .category-heading {
   z-index: 1100;
   display: flex;
   align-items: center;
-  gap: 10px;
-  height: 38px;
-  padding: 0 12px;
-  background: #0a0a09;
+  gap: 0;
+  height: 48px;
+  background: #050504;
   border-top: 1px solid var(--border);
   font-family: 'Courier New', 'Monaco', 'Menlo', monospace;
   font-size: 12px;
   color: var(--text3);
 }
 
-#ainw-radio ~ * {
-  /* Prevent content from hiding behind player */
-}
-
 body {
-  padding-bottom: 38px !important;
+  padding-bottom: 48px !important;
 }
 
 .ainw-radio__toggle {
   background: none;
-  border: 1px solid var(--border);
-  color: var(--text3);
-  width: 26px;
-  height: 26px;
+  border: none;
+  border-right: 1px solid var(--border);
+  color: var(--text2);
+  width: 48px;
+  height: 48px;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 0;
-  font-size: 10px;
-  transition: border-color 0.15s, color 0.15s;
+  font-size: 16px;
+  flex-shrink: 0;
+  transition: background 0.15s, color 0.15s;
 
   &:hover {
-    border-color: var(--accent-agents);
+    background: var(--bg3);
     color: var(--accent-agents);
   }
 }
 
 .ainw-radio--playing .ainw-radio__toggle {
-  border-color: var(--accent-agents);
   color: var(--accent-agents);
+  background: rgba(158, 184, 59, 0.08);
 }
 
+/* Visualizer canvas — fills the middle */
+.ainw-radio__viz {
+  position: absolute;
+  left: 48px;
+  right: 140px;
+  top: 0;
+  bottom: 0;
+  width: calc(100% - 188px);
+  height: 48px;
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+.ainw-radio--playing .ainw-radio__viz {
+  opacity: 1;
+}
+
+/* Info floats over the visualizer */
 .ainw-radio__info {
+  position: absolute;
+  left: 60px;
+  right: 152px;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   min-width: 0;
-  flex: 1;
   overflow: hidden;
+  pointer-events: none;
+  z-index: 1;
 }
 
 .ainw-radio__label {
   color: var(--text2);
   font-weight: bold;
-  letter-spacing: 0.15em;
-  font-size: 10px;
+  letter-spacing: 0.2em;
+  font-size: 11px;
   text-transform: uppercase;
   white-space: nowrap;
+  text-shadow: 0 0 8px #050504, 0 0 16px #050504;
 }
 
 .ainw-radio--playing .ainw-radio__label {
   color: var(--accent-agents);
+  text-shadow: 0 0 8px #050504, 0 0 20px rgba(158, 184, 59, 0.3);
 }
 
 .ainw-radio__now-playing {
@@ -1088,17 +1132,21 @@ body {
   overflow: hidden;
   text-overflow: ellipsis;
   font-size: 11px;
+  text-shadow: 0 0 8px #050504, 0 0 16px #050504;
 }
 
 .ainw-radio__controls {
+  position: absolute;
+  right: 36px;
   display: flex;
   align-items: center;
+  z-index: 1;
 }
 
 .ainw-radio__volume {
   -webkit-appearance: none;
   appearance: none;
-  width: 60px;
+  width: 70px;
   height: 3px;
   background: var(--border);
   outline: none;
@@ -1107,30 +1155,37 @@ body {
   &::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
-    width: 10px;
-    height: 10px;
-    background: var(--text3);
+    width: 12px;
+    height: 12px;
+    background: var(--text2);
     border: none;
+    border-radius: 0;
     cursor: pointer;
   }
 
   &::-moz-range-thumb {
-    width: 10px;
-    height: 10px;
-    background: var(--text3);
+    width: 12px;
+    height: 12px;
+    background: var(--text2);
     border: none;
+    border-radius: 0;
     cursor: pointer;
   }
 }
 
 .ainw-radio__close {
+  position: absolute;
+  right: 4px;
   background: none;
   border: none;
   color: var(--text3);
-  font-size: 16px;
+  font-size: 18px;
   cursor: pointer;
-  padding: 0 4px;
-  line-height: 1;
+  padding: 0 8px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  z-index: 1;
 
   &:hover {
     color: var(--text);
@@ -1138,11 +1193,25 @@ body {
 }
 
 @media (max-width: 600px) {
+  .ainw-radio__viz {
+    right: 100px;
+    width: calc(100% - 148px);
+  }
+
+  .ainw-radio__info {
+    right: 112px;
+  }
+
+  .ainw-radio__controls {
+    right: 32px;
+  }
+
   .ainw-radio__volume {
     width: 40px;
   }
 
   .ainw-radio__label {
     font-size: 9px;
+    letter-spacing: 0.15em;
   }
 }

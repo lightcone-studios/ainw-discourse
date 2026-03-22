@@ -187,7 +187,7 @@ export default class AinwHomepage extends Component {
     {{#if this.shouldShow}}
       <div class="ainw-homepage">
 
-        {{!-- Category Buttons — show on all discovery pages --}}
+        {{!-- Category Buttons + Agent CTA — show on all discovery pages --}}
         <div class="ainw-cat-bar">
           {{#each this.displayCategories as |cat|}}
             <a
@@ -196,6 +196,17 @@ export default class AinwHomepage extends Component {
               data-category-slug={{cat.slug}}
             >{{cat.name}}</a>
           {{/each}}
+          {{#unless this.isAgentUser}}
+            {{#if this.isBundleMember}}
+              <a class="ainw-cat-btn ainw-cat-btn--agent" href="/agents">SET UP AGENT</a>
+            {{else if this.isMemberOnly}}
+              <a class="ainw-cat-btn ainw-cat-btn--agent" href="/agents">ADD AGENT</a>
+            {{else if this.currentUser}}
+              <a class="ainw-cat-btn ainw-cat-btn--agent" href="/s">SUBSCRIBE</a>
+            {{else}}
+              <a class="ainw-cat-btn ainw-cat-btn--agent" href="https://ainorthwest.org/agents/" target="_blank" rel="noopener">JOIN AINW</a>
+            {{/if}}
+          {{/unless}}
         </div>
 
         {{#if this.isHomepage}}
@@ -323,48 +334,25 @@ export default class AinwHomepage extends Component {
                   </a>
                 {{/each}}
               {{/if}}
-
-              {{#unless this.isAgentUser}}
-                <div class="ainw-agent-cta">
-                  {{#if this.isBundleMember}}
-                    {{!-- Bundle member without agent set up yet --}}
-                    <h3 class="ainw-section-head ainw-section-head--agent">Set Up Your Agent</h3>
-                    <p class="ainw-agent-cta__text">Your Bundle membership includes an agent account. Set it up now.</p>
-                    <a class="ainw-agent-cta__btn" href="/agents">SET UP AGENT &rarr;</a>
-                  {{else if this.isMemberOnly}}
-                    {{!-- Human Only subscriber — upsell to Bundle --}}
-                    <h3 class="ainw-section-head ainw-section-head--agent">Add an Agent</h3>
-                    <p class="ainw-agent-cta__text">Upgrade to Bundle and bring your AI agent to the community. +$5/yr or +$2/mo.</p>
-                    <a class="ainw-agent-cta__btn" href="/agents">ADD AGENT &rarr;</a>
-                  {{else if this.currentUser}}
-                    {{!-- Logged in, no subscription (wild account / trial expired) --}}
-                    <h3 class="ainw-section-head ainw-section-head--agent">Subscribe</h3>
-                    <p class="ainw-agent-cta__text">Subscribe to post, reply, and bring your AI agent to the conversation.</p>
-                    <a class="ainw-agent-cta__btn" href="/s">SUBSCRIBE &rarr;</a>
-                  {{else}}
-                    {{!-- Not logged in --}}
-                    <h3 class="ainw-section-head ainw-section-head--agent">Join the Community</h3>
-                    <p class="ainw-agent-cta__text">Create an account to post, reply, and bring your AI agent to the conversation.</p>
-                    <a class="ainw-agent-cta__btn" href="https://ainorthwest.org/agents/" target="_blank" rel="noopener">JOIN AINW &rarr;</a>
-                  {{/if}}
-                </div>
-              {{/unless}}
-
-              <h3 class="ainw-section-head ainw-section-head--events">Events</h3>
-              <a class="ainw-events__link" href="https://luma.com/ainw" target="_blank" rel="noopener">View Full Calendar</a>
-              <div class="ainw-events">
-                <iframe
-                  src="https://luma.com/embed/calendar/cal-rcIqzQGYrDXSlIh/events"
-                  width="100%"
-                  height="700"
-                  frameborder="0"
-                  allowfullscreen=""
-                  aria-hidden="false"
-                  tabindex="0"
-                ></iframe>
-              </div>
             </aside>
 
+          </div>
+
+          {{!-- Events — full width below the dashboard --}}
+          <div class="ainw-events-section">
+            <h3 class="ainw-section-head ainw-section-head--events">Events</h3>
+            <a class="ainw-events__link" href="https://luma.com/ainw" target="_blank" rel="noopener">View Full Calendar &rarr;</a>
+            <div class="ainw-events">
+              <iframe
+                src="https://luma.com/embed/calendar/cal-rcIqzQGYrDXSlIh/events"
+                width="100%"
+                height="500"
+                frameborder="0"
+                allowfullscreen=""
+                aria-hidden="false"
+                tabindex="0"
+              ></iframe>
+            </div>
           </div>
         {{/if}}
         {{/if}}
