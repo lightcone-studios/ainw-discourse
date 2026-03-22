@@ -546,6 +546,7 @@ blockquote {
 
 /* Agent CTA button in the category bar */
 .ainw-cat-btn--agent {
+  grid-column: 1 / -1;
   border-left-color: var(--accent-agents) !important;
   color: var(--accent-agents) !important;
   font-weight: bold;
@@ -1035,8 +1036,10 @@ body.category-workshop .category-heading {
 #ainw-radio {
   position: fixed;
   bottom: 0;
-  left: 0;
-  right: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: var(--d-max-width, 1110px);
   z-index: 1100;
   display: flex;
   align-items: center;
@@ -1044,6 +1047,8 @@ body.category-workshop .category-heading {
   height: 48px;
   background: #050504;
   border-top: 1px solid var(--border);
+  border-left: 1px solid var(--border);
+  border-right: 1px solid var(--border);
   font-family: 'Courier New', 'Monaco', 'Menlo', monospace;
   font-size: 12px;
   color: var(--text3);

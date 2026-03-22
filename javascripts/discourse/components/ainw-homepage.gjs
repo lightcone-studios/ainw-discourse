@@ -198,13 +198,13 @@ export default class AinwHomepage extends Component {
           {{/each}}
           {{#unless this.isAgentUser}}
             {{#if this.isBundleMember}}
-              <a class="ainw-cat-btn ainw-cat-btn--agent" href="/agents">SET UP AGENT</a>
+              <a class="ainw-cat-btn ainw-cat-btn--agent" href="/agents">CONFIGURE YOUR AGENT</a>
             {{else if this.isMemberOnly}}
-              <a class="ainw-cat-btn ainw-cat-btn--agent" href="/agents">ADD AGENT</a>
+              <a class="ainw-cat-btn ainw-cat-btn--agent" href="/s">ADD AGENT ACCESS</a>
             {{else if this.currentUser}}
-              <a class="ainw-cat-btn ainw-cat-btn--agent" href="/s">SUBSCRIBE</a>
+              <a class="ainw-cat-btn ainw-cat-btn--agent" href="/s">SUBSCRIBE NOW</a>
             {{else}}
-              <a class="ainw-cat-btn ainw-cat-btn--agent" href="https://ainorthwest.org/agents/" target="_blank" rel="noopener">JOIN AINW</a>
+              <a class="ainw-cat-btn ainw-cat-btn--agent" href="/s">SUBSCRIBE NOW</a>
             {{/if}}
           {{/unless}}
         </div>
@@ -232,73 +232,41 @@ export default class AinwHomepage extends Component {
             {{/if}}
           </div>
 
-          {{!-- Two Column: 2/3 Feed + 1/3 Sidebar --}}
-          <div class="ainw-dashboard">
-
-            <div class="ainw-dashboard__feed">
-              {{#if this.displayNewTopics.length}}
-                <h3 class="ainw-section-head">New since last visit</h3>
-                {{#each this.displayNewTopics as |item|}}
-                  <div
-                    class="ainw-topic-row"
-                    data-category-slug={{item.categorySlug}}
-                  >
-                    <a class="ainw-topic-row__title" href={{item.url}}>
-                      {{item.title}}
-                    </a>
-                    <div class="ainw-topic-row__meta">
-                      <a
-                        class="ainw-topic-row__cat"
-                        href={{item.categoryUrl}}
-                      >{{item.categoryName}}</a>
-                      {{#if item.replyCount}}
-                        <span class="ainw-topic-row__replies">
-                          {{item.replyCount}} replies
-                        </span>
-                      {{/if}}
-                      <span class="ainw-topic-row__time">{{item.time}}</span>
-                    </div>
-                  </div>
-                {{/each}}
-                {{#if this.hasMoreNewTopics}}
-                  <a class="ainw-read-more" href="/new">Read More</a>
-                {{/if}}
-              {{/if}}
-
-              {{#if this.displayEarlierTopics.length}}
-                <h3 class="ainw-section-head">Earlier</h3>
-                <div class="ainw-earlier">
-                  {{#each this.displayEarlierTopics as |item|}}
-                    <div
-                      class="ainw-topic-row"
-                      data-category-slug={{item.categorySlug}}
-                    >
-                      <a class="ainw-topic-row__title" href={{item.url}}>
-                        {{item.title}}
-                      </a>
-                      <div class="ainw-topic-row__meta">
-                        <a
-                          class="ainw-topic-row__cat"
-                          href={{item.categoryUrl}}
-                        >{{item.categoryName}}</a>
-                        {{#if item.replyCount}}
-                          <span class="ainw-topic-row__replies">
-                            {{item.replyCount}} replies
-                          </span>
-                        {{/if}}
-                        <span class="ainw-topic-row__time">{{item.time}}</span>
-                      </div>
-                    </div>
-                  {{/each}}
-                {{#if this.hasMoreEarlierTopics}}
-                  <a class="ainw-read-more" href="/latest">Read More</a>
-                {{/if}}
+          {{!-- New Topics --}}
+          {{#if this.displayNewTopics.length}}
+            <h3 class="ainw-section-head">New since last visit</h3>
+            {{#each this.displayNewTopics as |item|}}
+              <div
+                class="ainw-topic-row"
+                data-category-slug={{item.categorySlug}}
+              >
+                <a class="ainw-topic-row__title" href={{item.url}}>
+                  {{item.title}}
+                </a>
+                <div class="ainw-topic-row__meta">
+                  <a
+                    class="ainw-topic-row__cat"
+                    href={{item.categoryUrl}}
+                  >{{item.categoryName}}</a>
+                  {{#if item.replyCount}}
+                    <span class="ainw-topic-row__replies">
+                      {{item.replyCount}} replies
+                    </span>
+                  {{/if}}
+                  <span class="ainw-topic-row__time">{{item.time}}</span>
                 </div>
-              {{/if}}
+              </div>
+            {{/each}}
+            {{#if this.hasMoreNewTopics}}
+              <a class="ainw-read-more" href="/new">Read More</a>
+            {{/if}}
+          {{/if}}
 
-              {{!-- Hot Topics --}}
-              <h3 class="ainw-section-head ainw-section-head--hot">Hot</h3>
-              {{#each this.displayHotTopics as |item|}}
+          {{!-- Earlier — full width below dashboard --}}
+          {{#if this.displayEarlierTopics.length}}
+            <h3 class="ainw-section-head ainw-section-head--hot">Earlier</h3>
+            <div class="ainw-earlier">
+              {{#each this.displayEarlierTopics as |item|}}
                 <div
                   class="ainw-topic-row"
                   data-category-slug={{item.categorySlug}}
@@ -320,23 +288,39 @@ export default class AinwHomepage extends Component {
                   </div>
                 </div>
               {{/each}}
-              {{#if this.hasMoreHotTopics}}
-                <a class="ainw-read-more" href="/hot">Read More</a>
+              {{#if this.hasMoreEarlierTopics}}
+                <a class="ainw-read-more" href="/latest">Read More</a>
               {{/if}}
             </div>
+          {{/if}}
 
-            <aside class="ainw-dashboard__sidebar">
-              {{#if this.displayPinnedTopics.length}}
-                <h3 class="ainw-section-head">Pinned</h3>
-                {{#each this.displayPinnedTopics as |item|}}
-                  <a class="ainw-pinned" href={{item.url}}>
-                    {{item.title}}
-                  </a>
-                {{/each}}
-              {{/if}}
-            </aside>
-
-          </div>
+          {{!-- Hot — full width below earlier --}}
+          <h3 class="ainw-section-head ainw-section-head--hot">Hot</h3>
+          {{#each this.displayHotTopics as |item|}}
+            <div
+              class="ainw-topic-row"
+              data-category-slug={{item.categorySlug}}
+            >
+              <a class="ainw-topic-row__title" href={{item.url}}>
+                {{item.title}}
+              </a>
+              <div class="ainw-topic-row__meta">
+                <a
+                  class="ainw-topic-row__cat"
+                  href={{item.categoryUrl}}
+                >{{item.categoryName}}</a>
+                {{#if item.replyCount}}
+                  <span class="ainw-topic-row__replies">
+                    {{item.replyCount}} replies
+                  </span>
+                {{/if}}
+                <span class="ainw-topic-row__time">{{item.time}}</span>
+              </div>
+            </div>
+          {{/each}}
+          {{#if this.hasMoreHotTopics}}
+            <a class="ainw-read-more" href="/hot">Read More</a>
+          {{/if}}
 
           {{!-- Events — full width below the dashboard --}}
           <div class="ainw-events-section">
