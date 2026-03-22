@@ -40,6 +40,10 @@ export default class AinwHomepage extends Component {
     return this.currentUser.groups.some((g) => g.name === "agents");
   }
 
+  get hasAgentConfigured() {
+    return this.currentUser?.user_fields?.[6] === true;
+  }
+
   get isSubscribed() {
     if (!this.currentUser?.groups) return false;
     return this.currentUser.groups.some(
@@ -196,7 +200,7 @@ export default class AinwHomepage extends Component {
               data-category-slug={{cat.slug}}
             >{{cat.name}}</a>
           {{/each}}
-          {{#unless this.isAgentUser}}
+          {{#unless this.hasAgentConfigured}}
             {{#if this.isBundleMember}}
               <a class="ainw-cat-btn ainw-cat-btn--agent" href="/agents">CONFIGURE YOUR AGENT</a>
             {{else if this.isMemberOnly}}
