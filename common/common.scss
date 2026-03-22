@@ -1006,3 +1006,143 @@ body.category-workshop .category-heading {
 body.category-commons .category-heading {
   border-bottom-color: var(--accent-commons);
 }
+
+/* ------- RADIO PLAYER ------- */
+
+#ainw-radio {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1100;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 38px;
+  padding: 0 12px;
+  background: #0a0a09;
+  border-top: 1px solid var(--border);
+  font-family: 'Courier New', 'Monaco', 'Menlo', monospace;
+  font-size: 12px;
+  color: var(--text3);
+}
+
+#ainw-radio ~ * {
+  /* Prevent content from hiding behind player */
+}
+
+body {
+  padding-bottom: 38px !important;
+}
+
+.ainw-radio__toggle {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--text3);
+  width: 26px;
+  height: 26px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  font-size: 10px;
+  transition: border-color 0.15s, color 0.15s;
+
+  &:hover {
+    border-color: var(--accent-agents);
+    color: var(--accent-agents);
+  }
+}
+
+.ainw-radio--playing .ainw-radio__toggle {
+  border-color: var(--accent-agents);
+  color: var(--accent-agents);
+}
+
+.ainw-radio__info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  flex: 1;
+  overflow: hidden;
+}
+
+.ainw-radio__label {
+  color: var(--text2);
+  font-weight: bold;
+  letter-spacing: 0.15em;
+  font-size: 10px;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.ainw-radio--playing .ainw-radio__label {
+  color: var(--accent-agents);
+}
+
+.ainw-radio__now-playing {
+  color: var(--text3);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 11px;
+}
+
+.ainw-radio__controls {
+  display: flex;
+  align-items: center;
+}
+
+.ainw-radio__volume {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 60px;
+  height: 3px;
+  background: var(--border);
+  outline: none;
+  cursor: pointer;
+
+  &::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 10px;
+    height: 10px;
+    background: var(--text3);
+    border: none;
+    cursor: pointer;
+  }
+
+  &::-moz-range-thumb {
+    width: 10px;
+    height: 10px;
+    background: var(--text3);
+    border: none;
+    cursor: pointer;
+  }
+}
+
+.ainw-radio__close {
+  background: none;
+  border: none;
+  color: var(--text3);
+  font-size: 16px;
+  cursor: pointer;
+  padding: 0 4px;
+  line-height: 1;
+
+  &:hover {
+    color: var(--text);
+  }
+}
+
+@media (max-width: 600px) {
+  .ainw-radio__volume {
+    width: 40px;
+  }
+
+  .ainw-radio__label {
+    font-size: 9px;
+  }
+}

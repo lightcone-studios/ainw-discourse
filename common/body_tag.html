@@ -1,0 +1,133 @@
+<script type="text/discourse-plugin" version="0.1">
+// AINW Radio Player — persistent bottom bar
+// Stream: AzuraCast at radio.ainorthwest.org
+
+(function() {
+  var STREAM_URL = "https://radio.ainorthwest.org/listen/ai_northwest_radio/radio.mp3";
+  var API_URL = "https://radio.ainorthwest.org/api/nowplaying";
+  var POLL_INTERVAL = 15000;
+
+  var audio = null;
+  var isPlaying = false;
+  var pollTimer = null;
+
+  function el(tag, cls, text) {
+    var e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (text) e.textContent = text;
+    return e;
+  }
+
+  function createPlayer() {
+    if (document.getElementById("ainw-radio")) return;
+
+    var bar = document.createElement("div");
+    bar.id = "ainw-radio";
+
+    var toggle = el("button", "ainw-radio__toggle");
+    toggle.setAttribute("aria-label", "Play radio");
+    var icon = el("span", "ainw-radio__icon", "\u25B6");
+    toggle.appendChild(icon);
+
+    var info = el("div", "ainw-radio__info");
+    var label = el("span", "ainw-radio__label", "AINW RADIO");
+    var nowPlaying = el("span", "ainw-radio__now-playing", "\u2014");
+    info.appendChild(label);
+    info.appendChild(nowPlaying);
+
+    var controls = el("div", "ainw-radio__controls");
+    var volume = document.createElement("input");
+    volume.type = "range";
+    volume.className = "ainw-radio__volume";
+    volume.min = "0";
+    volume.max = "100";
+    volume.value = "70";
+    volume.setAttribute("aria-label", "Volume");
+    controls.appendChild(volume);
+
+    var close = el("button", "ainw-radio__close", "\u00D7");
+    close.setAttribute("aria-label", "Hide player");
+
+    bar.appendChild(toggle);
+    bar.appendChild(info);
+    bar.appendChild(controls);
+    bar.appendChild(close);
+    document.body.appendChild(bar);
+
+    toggle.addEventListener("click", function() {
+      if (!audio) {
+        audio = new Audio(STREAM_URL);
+        audio.volume = volume.value / 100;
+        audio.addEventListener("error", function() {
+          nowPlaying.textContent = "offline";
+          icon.textContent = "\u25B6";
+          isPlaying = false;
+          bar.classList.remove("ainw-radio--playing");
+        });
+      }
+
+      if (isPlaying) {
+        audio.pause();
+        audio.src = "";
+        audio = null;
+        icon.textContent = "\u25B6";
+        isPlaying = false;
+        bar.classList.remove("ainw-radio--playing");
+        if (pollTimer) clearInterval(pollTimer);
+      } else {
+        audio.src = STREAM_URL;
+        audio.play().then(function() {
+          icon.textContent = "\u25A0";
+          isPlaying = true;
+          bar.classList.add("ainw-radio--playing");
+          fetchNowPlaying(nowPlaying);
+          pollTimer = setInterval(function() { fetchNowPlaying(nowPlaying); }, POLL_INTERVAL);
+        }).catch(function() {
+          nowPlaying.textContent = "offline";
+        });
+      }
+    });
+
+    volume.addEventListener("input", function() {
+      if (audio) audio.volume = this.value / 100;
+    });
+
+    close.addEventListener("click", function() {
+      if (audio) { audio.pause(); audio.src = ""; audio = null; }
+      if (pollTimer) clearInterval(pollTimer);
+      bar.remove();
+      sessionStorage.setItem("ainw-radio-hidden", "1");
+    });
+
+    fetchNowPlaying(nowPlaying);
+  }
+
+  function fetchNowPlaying(npEl) {
+    fetch(API_URL)
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        var stations = Array.isArray(data) ? data : [data];
+        var station = stations[0];
+        if (!station) return;
+        var song = station.now_playing && station.now_playing.song;
+        var live = station.live && station.live.is_live;
+        if (song && song.title) {
+          npEl.textContent = song.artist ? song.artist + " \u2014 " + song.title : song.title;
+        } else if (!live) {
+          npEl.textContent = "offline";
+        }
+      })
+      .catch(function() {
+        npEl.textContent = "\u2014";
+      });
+  }
+
+  if (!sessionStorage.getItem("ainw-radio-hidden")) {
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", createPlayer);
+    } else {
+      createPlayer();
+    }
+  }
+})();
+</script>
