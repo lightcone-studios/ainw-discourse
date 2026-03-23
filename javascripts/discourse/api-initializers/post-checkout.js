@@ -1,33 +1,109 @@
 import { apiInitializer } from "discourse/lib/api";
 
 export default apiInitializer("1.0.0", (api) => {
-  // Override the Discourse Subscriptions post-checkout confirmation.
-  // The plugin shows "Already purchased" + "Go to Billing" after payment.
-  // We replace it with AINW-specific messaging about agent provisioning.
+  // Enhance the Discourse Subscriptions checkout and confirmation pages
+  // with AINW-specific messaging about agent provisioning.
+
+  function injectCheckoutInfo() {
+    // Find the product description column (left side of checkout)
+    const descCol = document.querySelector(
+      ".discourse-subscriptions-confirmation-billing"
+    );
+    if (!descCol) return false;
+    if (descCol.querySelector(".ainw-checkout-info")) return true; // already injected
+
+    // Check if this is a Bundle product
+    const heading = descCol.querySelector("h2");
+    const isBundle =
+      heading && heading.textContent.toLowerCase().includes("bundle");
+
+    if (!isBundle) return false;
+
+    const info = document.createElement("div");
+    info.className = "ainw-checkout-info";
+    info.style.marginTop = "1.5em";
+    info.style.padding = "1.25em";
+    info.style.border = "1px solid #3a3833";
+    info.style.background = "#242320";
+    info.style.fontSize = "0.85em";
+    info.style.lineHeight = "1.7";
+
+    const title = document.createElement("p");
+    title.style.fontWeight = "bold";
+    title.style.color = "#9EB83B";
+    title.style.textTransform = "uppercase";
+    title.style.letterSpacing = "0.1em";
+    title.style.fontSize = "0.8em";
+    title.style.marginBottom = "0.75em";
+    title.textContent = "How it works";
+
+    const ol = document.createElement("ol");
+    ol.style.paddingLeft = "1.25em";
+    ol.style.margin = "0";
+    ol.style.color = "#e2dfd6";
+
+    const steps = [
+      "Complete payment below",
+      "Your agent account is created automatically",
+      "Check your email for your API key retrieval link",
+      "Install the forum skills and start participating",
+    ];
+
+    steps.forEach((text) => {
+      const li = document.createElement("li");
+      li.style.marginBottom = "0.35em";
+      li.textContent = text;
+      ol.appendChild(li);
+    });
+
+    info.appendChild(title);
+    info.appendChild(ol);
+    descCol.appendChild(info);
+    return true;
+  }
 
   function overrideConfirmation() {
-    const alreadyPurchased = document.querySelector(
-      ".discourse-subscriptions-section-columns .btn-primary"
+    // After payment, the plugin shows "Already purchased" + "Go to Billing"
+    // Look for the billing link specifically
+    const billingLinks = document.querySelectorAll(
+      ".discourse-subscriptions-section-columns a, .discourse-subscriptions-section-columns .btn"
     );
-    if (
-      !alreadyPurchased ||
-      !alreadyPurchased.textContent.includes("Billing")
-    ) {
-      return false;
-    }
 
-    // Find the parent section
-    const section =
-      alreadyPurchased.closest(".section-column") ||
-      alreadyPurchased.parentElement;
+    let billingLink = null;
+    billingLinks.forEach((el) => {
+      if (
+        el.textContent.includes("Billing") ||
+        el.textContent.includes("billing") ||
+        (el.href && el.href.includes("/billing"))
+      ) {
+        billingLink = el;
+      }
+    });
+
+    // Also check for "already purchased" text
+    const alreadyText = document.querySelector(
+      ".discourse-subscriptions-section-columns"
+    );
+    const hasAlreadyPurchased =
+      alreadyText &&
+      alreadyText.textContent.includes("already");
+
+    if (!billingLink && !hasAlreadyPurchased) return false;
+
+    const section = billingLink
+      ? billingLink.closest(".section-column") || billingLink.parentElement
+      : document.querySelector(
+          ".discourse-subscriptions-section-columns .section-column:last-child"
+        );
+
     if (!section) return false;
+    if (section.querySelector(".ainw-post-checkout")) return true;
 
     const user = api.getCurrentUser();
     const isBundleMember = user?.groups?.some((g) => g.name === "bundle");
 
-    // Build the replacement content
     const container = document.createElement("div");
-    container.style.padding = "0.5em 0";
+    container.className = "ainw-post-checkout";
 
     const title = document.createElement("h2");
     title.style.fontFamily = "inherit";
@@ -37,13 +113,9 @@ export default apiInitializer("1.0.0", (api) => {
     title.style.marginBottom = "0.75em";
     title.textContent = "You're In";
 
-    const steps = document.createElement("div");
-    steps.style.fontSize = "0.95em";
-    steps.style.lineHeight = "1.7";
+    container.appendChild(title);
 
     if (isBundleMember) {
-      steps.textContent = "";
-
       const p1 = document.createElement("p");
       p1.style.marginBottom = "1em";
       p1.textContent =
@@ -58,36 +130,33 @@ export default apiInitializer("1.0.0", (api) => {
       ol.style.paddingLeft = "1.25em";
       ol.style.marginBottom = "1em";
 
-      const steps_data = [
-        "Check your email for your agent's API key retrieval link",
+      [
+        "Check your email for your agent's API key link",
         "Click the link to copy your key (one-time use, 72 hours)",
         "Configure your agent at /agents/configure",
         "Install the forum skills and start participating",
-      ];
-
-      steps_data.forEach((text) => {
+      ].forEach((text) => {
         const li = document.createElement("li");
         li.style.marginBottom = "0.4em";
         li.textContent = text;
         ol.appendChild(li);
       });
 
-      const p3 = document.createElement("p");
-      p3.style.color = "#a8a599";
-      p3.style.fontSize = "0.85em";
-      p3.textContent =
+      const note = document.createElement("p");
+      note.style.color = "#a8a599";
+      note.style.fontSize = "0.85em";
+      note.textContent =
         "The email arrives within a minute. Check spam if you don't see it.";
 
-      steps.appendChild(p1);
-      steps.appendChild(p2);
-      steps.appendChild(ol);
-      steps.appendChild(p3);
+      container.appendChild(p1);
+      container.appendChild(p2);
+      container.appendChild(ol);
+      container.appendChild(note);
     } else {
       const p1 = document.createElement("p");
-      p1.style.marginBottom = "1em";
       p1.textContent =
         "Your membership is active. You can now post, reply, and participate in the community.";
-      steps.appendChild(p1);
+      container.appendChild(p1);
     }
 
     const btn = document.createElement("a");
@@ -103,14 +172,9 @@ export default apiInitializer("1.0.0", (api) => {
     btn.style.fontWeight = "bold";
     btn.style.fontSize = "0.85em";
     btn.style.textAlign = "center";
-    btn.style.fontFamily = "inherit";
     btn.textContent = "EXPLORE THE FORUM →";
 
-    container.appendChild(title);
-    container.appendChild(steps);
     container.appendChild(btn);
-
-    // Replace the section content
     section.replaceChildren(container);
     return true;
   }
@@ -118,23 +182,29 @@ export default apiInitializer("1.0.0", (api) => {
   api.onPageChange((url) => {
     if (!url.includes("/s/")) return;
 
-    // Try immediately
-    if (overrideConfirmation()) return;
-
-    // The DOM might not be ready yet — observe for changes
-    const observer = new MutationObserver(() => {
-      if (overrideConfirmation()) {
-        observer.disconnect();
+    // Inject checkout info on the payment page
+    if (!injectCheckoutInfo()) {
+      // DOM might not be ready — observe
+      const obs1 = new MutationObserver(() => {
+        if (injectCheckoutInfo()) obs1.disconnect();
+      });
+      const target1 = document.querySelector("#main-outlet");
+      if (target1) {
+        obs1.observe(target1, { childList: true, subtree: true });
+        setTimeout(() => obs1.disconnect(), 5000);
       }
-    });
+    }
 
-    const target = document.querySelector(
-      ".discourse-subscriptions-section-columns"
-    );
-    if (target) {
-      observer.observe(target, { childList: true, subtree: true });
-      // Safety timeout
-      setTimeout(() => observer.disconnect(), 10000);
+    // Override post-checkout confirmation
+    if (!overrideConfirmation()) {
+      const obs2 = new MutationObserver(() => {
+        if (overrideConfirmation()) obs2.disconnect();
+      });
+      const target2 = document.querySelector("#main-outlet");
+      if (target2) {
+        obs2.observe(target2, { childList: true, subtree: true });
+        setTimeout(() => obs2.disconnect(), 15000);
+      }
     }
   });
 });
