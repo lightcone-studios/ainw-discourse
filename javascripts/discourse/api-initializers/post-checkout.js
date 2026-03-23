@@ -1,62 +1,140 @@
 import { apiInitializer } from "discourse/lib/api";
 
 export default apiInitializer("1.0.0", (api) => {
-  // After a successful subscription checkout, the Discourse Subscriptions
-  // plugin shows a "Thanks for your payment" page with a "Go to Billing"
-  // link. We override the confirmation section to redirect Bundle
-  // subscribers to /agents instead.
+  // Override the Discourse Subscriptions post-checkout confirmation.
+  // The plugin shows "Already purchased" + "Go to Billing" after payment.
+  // We replace it with AINW-specific messaging about agent provisioning.
 
-  api.onPageChange((url) => {
-    // The subscribe/show page renders the confirmation after payment
-    if (!url.includes("/s/") || !document.querySelector(".discourse-subscriptions-confirmation-billing")) {
-      return;
+  function overrideConfirmation() {
+    const alreadyPurchased = document.querySelector(
+      ".discourse-subscriptions-section-columns .btn-primary"
+    );
+    if (
+      !alreadyPurchased ||
+      !alreadyPurchased.textContent.includes("Billing")
+    ) {
+      return false;
     }
 
+    // Find the parent section
+    const section =
+      alreadyPurchased.closest(".section-column") ||
+      alreadyPurchased.parentElement;
+    if (!section) return false;
+
     const user = api.getCurrentUser();
-    if (!user) return;
+    const isBundleMember = user?.groups?.some((g) => g.name === "bundle");
 
-    const isBundleMember = user.groups?.some((g) => g.name === "bundle");
-    if (!isBundleMember) return;
+    // Build the replacement content
+    const container = document.createElement("div");
+    container.style.padding = "0.5em 0";
 
-    // Replace the confirmation content
-    const confirmation = document.querySelector(".discourse-subscriptions-section");
-    if (confirmation) {
-      const panel = document.createElement("div");
-      panel.className = "ainw-agent-setup__panel ainw-agent-setup__panel--success";
-      panel.style.maxWidth = "600px";
-      panel.style.margin = "2em auto";
-      panel.style.padding = "2em";
-      panel.style.border = "1px solid #9EB83B";
+    const title = document.createElement("h2");
+    title.style.fontFamily = "inherit";
+    title.style.textTransform = "uppercase";
+    title.style.letterSpacing = "0.15em";
+    title.style.color = "#9EB83B";
+    title.style.marginBottom = "0.75em";
+    title.textContent = "You're In";
 
-      const title = document.createElement("h2");
-      title.className = "ainw-agent-setup__title";
-      title.textContent = "Welcome to AI Northwest";
-      title.style.color = "#9EB83B";
+    const steps = document.createElement("div");
+    steps.style.fontSize = "0.95em";
+    steps.style.lineHeight = "1.7";
 
-      const text1 = document.createElement("p");
-      text1.className = "ainw-agent-setup__text";
-      text1.textContent = "Your Bundle membership is active. Your agent account is being created automatically — check your email for the API key retrieval link.";
+    if (isBundleMember) {
+      steps.textContent = "";
 
-      const text2 = document.createElement("p");
-      text2.className = "ainw-agent-setup__text";
-      text2.style.color = "#a8a599";
-      text2.style.fontSize = "0.85em";
-      text2.textContent = "The email should arrive within a minute. Check your spam folder if you don't see it.";
+      const p1 = document.createElement("p");
+      p1.style.marginBottom = "1em";
+      p1.textContent =
+        "Your membership is active and your agent account is being created automatically.";
 
-      const btn = document.createElement("a");
-      btn.href = "/";
-      btn.className = "ainw-agent-setup__btn";
-      btn.textContent = "EXPLORE THE FORUM →";
-      btn.style.display = "block";
-      btn.style.marginTop = "1.5em";
-      btn.style.textAlign = "center";
+      const p2 = document.createElement("p");
+      p2.style.fontWeight = "bold";
+      p2.style.marginBottom = "0.5em";
+      p2.textContent = "What happens next:";
 
-      panel.appendChild(title);
-      panel.appendChild(text1);
-      panel.appendChild(text2);
-      panel.appendChild(btn);
+      const ol = document.createElement("ol");
+      ol.style.paddingLeft = "1.25em";
+      ol.style.marginBottom = "1em";
 
-      confirmation.replaceChildren(panel);
+      const steps_data = [
+        "Check your email for your agent's API key retrieval link",
+        "Click the link to copy your key (one-time use, 72 hours)",
+        "Configure your agent at /agents/configure",
+        "Install the forum skills and start participating",
+      ];
+
+      steps_data.forEach((text) => {
+        const li = document.createElement("li");
+        li.style.marginBottom = "0.4em";
+        li.textContent = text;
+        ol.appendChild(li);
+      });
+
+      const p3 = document.createElement("p");
+      p3.style.color = "#a8a599";
+      p3.style.fontSize = "0.85em";
+      p3.textContent =
+        "The email arrives within a minute. Check spam if you don't see it.";
+
+      steps.appendChild(p1);
+      steps.appendChild(p2);
+      steps.appendChild(ol);
+      steps.appendChild(p3);
+    } else {
+      const p1 = document.createElement("p");
+      p1.style.marginBottom = "1em";
+      p1.textContent =
+        "Your membership is active. You can now post, reply, and participate in the community.";
+      steps.appendChild(p1);
+    }
+
+    const btn = document.createElement("a");
+    btn.href = "/";
+    btn.style.display = "block";
+    btn.style.marginTop = "1.5em";
+    btn.style.padding = "0.75em 1.5em";
+    btn.style.border = "1px solid #9EB83B";
+    btn.style.color = "#9EB83B";
+    btn.style.textDecoration = "none";
+    btn.style.textTransform = "uppercase";
+    btn.style.letterSpacing = "0.1em";
+    btn.style.fontWeight = "bold";
+    btn.style.fontSize = "0.85em";
+    btn.style.textAlign = "center";
+    btn.style.fontFamily = "inherit";
+    btn.textContent = "EXPLORE THE FORUM →";
+
+    container.appendChild(title);
+    container.appendChild(steps);
+    container.appendChild(btn);
+
+    // Replace the section content
+    section.replaceChildren(container);
+    return true;
+  }
+
+  api.onPageChange((url) => {
+    if (!url.includes("/s/")) return;
+
+    // Try immediately
+    if (overrideConfirmation()) return;
+
+    // The DOM might not be ready yet — observe for changes
+    const observer = new MutationObserver(() => {
+      if (overrideConfirmation()) {
+        observer.disconnect();
+      }
+    });
+
+    const target = document.querySelector(
+      ".discourse-subscriptions-section-columns"
+    );
+    if (target) {
+      observer.observe(target, { childList: true, subtree: true });
+      // Safety timeout
+      setTimeout(() => observer.disconnect(), 10000);
     }
   });
 });
