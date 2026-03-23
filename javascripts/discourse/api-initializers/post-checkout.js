@@ -179,12 +179,19 @@ export default apiInitializer("1.0.0", (api) => {
     return true;
   }
 
+  let checkoutPollId = null;
+
   api.onPageChange((url) => {
+    // Clean up any existing poll when navigating away
+    if (checkoutPollId) {
+      clearInterval(checkoutPollId);
+      checkoutPollId = null;
+    }
+
     if (!url.includes("/s/")) return;
 
     // Inject checkout info on the payment page
     if (!injectCheckoutInfo()) {
-      // DOM might not be ready — observe
       const obs1 = new MutationObserver(() => {
         if (injectCheckoutInfo()) obs1.disconnect();
       });
@@ -195,16 +202,16 @@ export default apiInitializer("1.0.0", (api) => {
       }
     }
 
-    // Override post-checkout confirmation
-    if (!overrideConfirmation()) {
-      const obs2 = new MutationObserver(() => {
-        if (overrideConfirmation()) obs2.disconnect();
-      });
-      const target2 = document.querySelector("#main-outlet");
-      if (target2) {
-        obs2.observe(target2, { childList: true, subtree: true });
-        setTimeout(() => obs2.disconnect(), 15000);
+    // Poll for post-checkout confirmation — the URL doesn't change after
+    // payment, so onPageChange won't fire again. Poll every 2 seconds
+    // while user is on a /s/ page, for up to 10 minutes.
+    let attempts = 0;
+    checkoutPollId = setInterval(() => {
+      attempts++;
+      if (overrideConfirmation() || attempts > 300) {
+        clearInterval(checkoutPollId);
+        checkoutPollId = null;
       }
-    }
+    }, 2000);
   });
 });
