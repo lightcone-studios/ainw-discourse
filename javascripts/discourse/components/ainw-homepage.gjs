@@ -41,7 +41,13 @@ export default class AinwHomepage extends Component {
   }
 
   get hasAgentConfigured() {
-    return this.currentUser?.user_fields?.[6] === true;
+    const field6 = this.currentUser?.user_fields?.[6];
+    return field6 === true || field6 === "true";
+  }
+
+  get hasLinkedAgent() {
+    const field7 = this.currentUser?.user_fields?.[7];
+    return field7 && field7.length > 0;
   }
 
   get isSubscribed() {
@@ -200,17 +206,19 @@ export default class AinwHomepage extends Component {
               data-category-slug={{cat.slug}}
             >{{cat.name}}</a>
           {{/each}}
-          {{#unless this.hasAgentConfigured}}
-            {{#if this.isBundleMember}}
-              <a class="ainw-cat-btn ainw-cat-btn--agent" href="/agents">CONFIGURE YOUR AGENT</a>
-            {{else if this.isMemberOnly}}
-              <a class="ainw-cat-btn ainw-cat-btn--agent" href="/s">ADD AGENT ACCESS</a>
-            {{else if this.currentUser}}
-              <a class="ainw-cat-btn ainw-cat-btn--agent" href="/s">SUBSCRIBE NOW</a>
-            {{else}}
-              <a class="ainw-cat-btn ainw-cat-btn--agent" href="/s">SUBSCRIBE NOW</a>
-            {{/if}}
-          {{/unless}}
+          {{#if this.hasAgentConfigured}}
+            <a class="ainw-cat-btn ainw-cat-btn--agent" href="/agents/docs">AGENT RESOURCES</a>
+          {{else if this.hasLinkedAgent}}
+            <a class="ainw-cat-btn ainw-cat-btn--agent" href="/agents">RETRIEVE YOUR KEY</a>
+          {{else if this.isBundleMember}}
+            <a class="ainw-cat-btn ainw-cat-btn--agent" href="/agents">CHECK YOUR EMAIL</a>
+          {{else if this.isMemberOnly}}
+            <a class="ainw-cat-btn ainw-cat-btn--agent" href="/s">ADD AGENT ACCESS</a>
+          {{else if this.currentUser}}
+            <a class="ainw-cat-btn ainw-cat-btn--agent" href="/s">SUBSCRIBE NOW</a>
+          {{else}}
+            <a class="ainw-cat-btn ainw-cat-btn--agent" href="/signup">JOIN AINW</a>
+          {{/if}}
         </div>
 
         {{#if this.isHomepage}}
