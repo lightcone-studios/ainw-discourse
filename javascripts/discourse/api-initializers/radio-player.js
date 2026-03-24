@@ -16,6 +16,7 @@ export default apiInitializer("0.1", (api) => {
   let animFrame = null;
   let canvas = null;
   let canvasCtx = null;
+  let playerBar = null;
 
   function mk(tag, cls, text) {
     const e = document.createElement(tag);
@@ -24,9 +25,28 @@ export default apiInitializer("0.1", (api) => {
     return e;
   }
 
-  function createPlayer() {
-    if (document.getElementById("ainw-radio")) return;
+  function insertPlayer(bar) {
+    const catBar = document.querySelector(".ainw-cat-bar");
+    if (catBar && catBar.parentNode) {
+      catBar.parentNode.insertBefore(bar, catBar.nextSibling);
+    }
+  }
 
+  function ensurePlayer() {
+    // Already in the DOM in the right spot
+    if (playerBar && document.body.contains(playerBar)) return;
+
+    // Already built but Ember removed it — re-insert
+    if (playerBar) {
+      insertPlayer(playerBar);
+      return;
+    }
+
+    // First time — build the element
+    createPlayer();
+  }
+
+  function createPlayer() {
     const bar = mk("div");
     bar.id = "ainw-radio";
 
@@ -64,7 +84,9 @@ export default apiInitializer("0.1", (api) => {
     bar.appendChild(canvas);
     bar.appendChild(info);
     bar.appendChild(controls);
-    document.body.appendChild(bar);
+
+    insertPlayer(bar);
+    playerBar = bar;
 
     // Size canvas to fill available space
     function resizeCanvas() {
@@ -260,9 +282,9 @@ export default apiInitializer("0.1", (api) => {
       });
   }
 
+  // Wait a tick on each page change for Ember to finish rendering,
+  // then ensure the player is in the DOM after .ainw-cat-bar
   api.onPageChange(() => {
-    if (!document.getElementById("ainw-radio")) {
-      createPlayer();
-    }
+    setTimeout(ensurePlayer, 150);
   });
 });
