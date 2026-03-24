@@ -69,13 +69,7 @@ export default apiInitializer("0.1", (api) => {
     bar.appendChild(info);
     bar.appendChild(controls);
     bar.appendChild(close);
-    // Insert after the category bar (green CTA) instead of fixed at bottom
-    const catBar = document.querySelector(".ainw-cat-bar");
-    if (catBar && catBar.parentNode) {
-      catBar.parentNode.insertBefore(bar, catBar.nextSibling);
-    } else {
-      document.body.appendChild(bar);
-    }
+    document.body.appendChild(bar);
 
     // Size canvas to fill available space
     function resizeCanvas() {

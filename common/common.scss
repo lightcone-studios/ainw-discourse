@@ -1075,18 +1075,28 @@ body.category-workshop .category-heading {
 /* ------- RADIO PLAYER ------- */
 
 #ainw-radio {
-  position: relative;
+  position: fixed;
+  top: var(--header-offset, 60px);
+  left: 50%;
+  transform: translateX(-50%);
   width: 100%;
+  max-width: var(--d-max-width, 1110px);
+  z-index: 1100;
   display: flex;
   align-items: center;
   gap: 0;
   height: 48px;
   background: #050504;
-  border: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  border-left: 1px solid var(--border);
+  border-right: 1px solid var(--border);
   font-family: 'Courier New', 'Monaco', 'Menlo', monospace;
   font-size: 12px;
   color: var(--text3);
-  margin-bottom: 1.5em;
+}
+
+#main-outlet {
+  padding-top: 48px;
 }
 
 .ainw-radio__toggle {
