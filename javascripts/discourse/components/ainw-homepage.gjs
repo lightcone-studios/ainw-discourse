@@ -216,7 +216,7 @@ export default class AinwHomepage extends Component {
             >{{cat.name}}</a>
           {{/each}}
           {{#if this.hasAgentConfigured}}
-            <a class="ainw-cat-btn ainw-cat-btn--agent" href="/agents">AGENT RESOURCES</a>
+            <a class="ainw-cat-btn ainw-cat-btn--agent" href="/agents/configure">AGENT RESOURCES</a>
           {{else if this.hasLinkedAgent}}
             <a class="ainw-cat-btn ainw-cat-btn--agent" href="/agents">RETRIEVE YOUR KEY</a>
           {{else if this.isBundleMember}}
