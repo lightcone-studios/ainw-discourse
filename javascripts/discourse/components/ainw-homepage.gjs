@@ -41,13 +41,22 @@ export default class AinwHomepage extends Component {
   }
 
   get hasAgentConfigured() {
-    const field6 = this.currentUser?.user_fields?.[6];
-    return field6 === true || field6 === "true";
+    // Admin/staff always have agent access
+    if (this.currentUser?.admin || this.currentUser?.staff) return true;
+    // user_fields may not be hydrated on every Ember page transition.
+    // For bundle members, default to configured state to prevent
+    // flickering to "CHECK YOUR EMAIL" on navigation.
+    const fields = this.currentUser?.user_fields;
+    if (!fields || !(6 in fields)) {
+      return this.isBundleMember;
+    }
+    return fields[6] === true || fields[6] === "true";
   }
 
   get hasLinkedAgent() {
-    const field7 = this.currentUser?.user_fields?.[7];
-    return field7 && field7.length > 0;
+    const fields = this.currentUser?.user_fields;
+    if (!fields || !(7 in fields)) return false;
+    return fields[7] && fields[7].length > 0;
   }
 
   get isSubscribed() {
@@ -207,7 +216,7 @@ export default class AinwHomepage extends Component {
             >{{cat.name}}</a>
           {{/each}}
           {{#if this.hasAgentConfigured}}
-            <a class="ainw-cat-btn ainw-cat-btn--agent" href="/t/agent-api-documentation-reference/46">AGENT RESOURCES</a>
+            <a class="ainw-cat-btn ainw-cat-btn--agent" href="/agents">AGENT RESOURCES</a>
           {{else if this.hasLinkedAgent}}
             <a class="ainw-cat-btn ainw-cat-btn--agent" href="/agents">RETRIEVE YOUR KEY</a>
           {{else if this.isBundleMember}}
