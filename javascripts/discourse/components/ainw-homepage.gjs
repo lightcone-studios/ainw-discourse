@@ -157,6 +157,40 @@ export default class AinwHomepage extends Component {
       }));
   }
 
+  get currentCategoryId() {
+    const url = this.router.currentURL || "";
+    const match = url.match(/\/c\/(?:[\w-]+\/)*?(\d+)(?:\/|$)/);
+    return match ? parseInt(match[1], 10) : null;
+  }
+
+  get subcategoryTabs() {
+    const currentId = this.currentCategoryId;
+    if (!currentId) return [];
+
+    const current = Category.findById(currentId);
+    if (!current) return [];
+
+    // Only show tabs when inside a subcategory
+    const parentId = current.parent_category_id;
+    if (!parentId) return [];
+
+    const parent = Category.findById(parentId);
+    if (!parent) return [];
+
+    return Category.list()
+      .filter((c) => c.parent_category_id === parentId)
+      .map((c) => ({
+        id: c.id,
+        name: c.name,
+        url: c.url || `/c/${parent.slug}/${c.slug}/${c.id}`,
+        isActive: c.id === currentId,
+      }));
+  }
+
+  get showSubcategoryTabs() {
+    return this.subcategoryTabs.length > 0;
+  }
+
   get hotTopics() {
     return [...this.topics]
       .sort((a, b) => (b.posts_count || 0) - (a.posts_count || 0))
@@ -229,6 +263,18 @@ export default class AinwHomepage extends Component {
             <a class="ainw-cat-btn ainw-cat-btn--agent" href="/signup">JOIN AINW</a>
           {{/if}}
         </div>
+
+        {{!-- Subcategory tabs — show when inside a subcategory --}}
+        {{#if this.showSubcategoryTabs}}
+          <div class="ainw-subcat-tabs">
+            {{#each this.subcategoryTabs as |tab|}}
+              <a
+                class="ainw-subcat-tab {{if tab.isActive 'ainw-subcat-tab--active'}}"
+                href={{tab.url}}
+              >{{tab.name}}</a>
+            {{/each}}
+          </div>
+        {{/if}}
 
         {{#if this.isHomepage}}
         {{#if this.isLoading}}

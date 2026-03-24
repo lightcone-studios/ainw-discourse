@@ -558,6 +558,47 @@ blockquote {
 }
 
 
+/* Subcategory tabs — sibling navigation within a parent category */
+.ainw-subcat-tabs {
+  display: flex;
+  gap: 0;
+  margin-bottom: 1.5em;
+  border: 1px solid var(--border);
+}
+
+.ainw-subcat-tab {
+  flex: 1;
+  display: block;
+  padding: 0.5em 0.75em;
+  background: var(--bg2);
+  color: var(--text3) !important;
+  text-decoration: none !important;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-weight: 500;
+  font-size: 0.78em;
+  text-align: center;
+  border-right: 1px solid var(--border);
+  transition: background-color 0.1s ease, color 0.1s ease;
+}
+
+.ainw-subcat-tab:last-child {
+  border-right: none;
+}
+
+.ainw-subcat-tab:hover {
+  background: var(--bg3);
+  color: var(--text) !important;
+}
+
+.ainw-subcat-tab--active {
+  background: var(--bg3);
+  color: #fff !important;
+  font-weight: 700;
+  border-bottom: 2px solid var(--text);
+}
+
+
 /* ------- DASHBOARD LAYOUT ------- */
 
 .ainw-dashboard {
