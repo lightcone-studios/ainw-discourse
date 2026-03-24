@@ -318,16 +318,6 @@ blockquote {
 
 /* ------- CATEGORIES ------- */
 
-/* Reorder: cat-bar above subcategory boxes on category pages */
-.category-page .list-container {
-  display: flex;
-  flex-direction: column;
-}
-
-.category-page .list-container > .ainw-homepage {
-  order: -1;
-}
-
 .category-list .category {
   border-bottom: 1px solid var(--border2);
 }
