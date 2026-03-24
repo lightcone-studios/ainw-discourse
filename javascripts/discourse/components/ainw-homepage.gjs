@@ -2,7 +2,6 @@ import Component from "@glimmer/component";
 import { service } from "@ember/service";
 import { tracked } from "@glimmer/tracking";
 import { action } from "@ember/object";
-import { schedule } from "@ember/runloop";
 import { defaultHomepage } from "discourse/lib/utilities";
 import Category from "discourse/models/category";
 
@@ -200,18 +199,6 @@ export default class AinwHomepage extends Component {
       this.hasError = true;
     } finally {
       this.isLoading = false;
-    }
-    // Move cat-bar above subcategory boxes on category pages
-    schedule("afterRender", this, this._reorderCatBar);
-  }
-
-  _reorderCatBar() {
-    const catBar = document.querySelector(".ainw-cat-bar");
-    const subcats = document.querySelector(
-      ".subcategory-list-style-boxes, .category-boxes-with-topics"
-    );
-    if (catBar && subcats?.parentElement) {
-      subcats.parentElement.insertBefore(catBar, subcats);
     }
   }
 
