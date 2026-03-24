@@ -60,15 +60,10 @@ export default apiInitializer("0.1", (api) => {
     volume.setAttribute("aria-label", "Volume");
     controls.appendChild(volume);
 
-    // Close
-    const close = mk("button", "ainw-radio__close", "\u00D7");
-    close.setAttribute("aria-label", "Hide player");
-
     bar.appendChild(toggle);
     bar.appendChild(canvas);
     bar.appendChild(info);
     bar.appendChild(controls);
-    bar.appendChild(close);
     document.body.appendChild(bar);
 
     // Size canvas to fill available space
@@ -90,13 +85,6 @@ export default apiInitializer("0.1", (api) => {
 
     volume.addEventListener("input", () => {
       if (audio) audio.volume = volume.value / 100;
-    });
-
-    close.addEventListener("click", () => {
-      stopPlayback(icon, nowPlaying, bar);
-      window.removeEventListener("resize", resizeCanvas);
-      bar.remove();
-      sessionStorage.setItem("ainw-radio-hidden", "1");
     });
 
     fetchNowPlaying(nowPlaying);
@@ -272,12 +260,8 @@ export default apiInitializer("0.1", (api) => {
       });
   }
 
-  // Initialize on page load (unless dismissed this session)
   api.onPageChange(() => {
-    if (
-      !sessionStorage.getItem("ainw-radio-hidden") &&
-      !document.getElementById("ainw-radio")
-    ) {
+    if (!document.getElementById("ainw-radio")) {
       createPlayer();
     }
   });
