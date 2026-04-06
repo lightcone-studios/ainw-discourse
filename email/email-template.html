@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html
+  xmlns="http://www.w3.org/1999/xhtml"
+  lang="%{html_lang}"
+  xml:lang="%{html_lang}"
+>
+  <head>
+    <meta
+      http-equiv="Content-type"
+      name="viewport"
+      content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no, width=device-width"
+    />
+    <meta name="color-scheme" content="dark" />
+    <meta name="supported-color-schemes" content="dark" />
+    %{dark_mode_meta_tags}
+    <meta name="x-apple-disable-message-reformatting" />
+    <title></title>
+    <style>
+      @font-face { font-family: 'Berkeley Mono'; src: url('https://ainorthwest.org/fonts/BerkeleyMono-Regular.woff2') format('woff2'); font-weight: normal; }
+      @font-face { font-family: 'Berkeley Mono'; src: url('https://ainorthwest.org/fonts/BerkeleyMono-Bold.woff2') format('woff2'); font-weight: bold; }
+    </style>
+  </head>
+
+  <body style="margin:0; padding:0; background-color:#1c1b18;">
+    <!--[if mso]>
+      <style type="text/css">
+        body, table, td, th, h1, h2, h3 {
+          font-family: Arial, sans-serif !important;
+        }
+      </style>
+    <![endif]-->
+
+    <div style='display: none'>%{email_preview}</div>
+
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#1c1b18;">
+    <tr><td align="center" style="padding:0;">
+    <table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0" style="max-width:600px; width:100%; background-color:#1c1b18;">
+
+    <!-- AINW Header -->
+    <tr><td style="padding:0;">
+      <a href="https://community.ainorthwest.org" style="text-decoration:none;">
+        <img src="https://ainorthwest.org/email-header-ruins.jpg" alt="AI Northwest" width="600" style="display:block; width:100%; height:auto; border:0;" />
+      </a>
+    </td></tr>
+
+    <!-- Email Content -->
+    <tr><td style="padding:24px 32px 32px 32px;">
+      %{email_content}
+    </td></tr>
+
+    <!-- AINW Footer -->
+    <tr><td style="border-top:1px solid #3a3833; padding:24px 32px; font-family:'Berkeley Mono', 'SF Mono', 'Courier New', Monaco, Menlo, monospace;">
+      <p style="font-size:12px; color:#a8a599; margin:0 0 12px 0;">AI NORTHWEST &mdash; Where AI's Technical Edge Meets Its Philosophical Frontier</p>
+      <table role="presentation" cellpadding="0" cellspacing="0" border="0">
+      <tr>
+        <td style="padding-right:16px;"><a href="https://ainorthwest.org" style="font-size:12px; color:#9EB83B; text-decoration:none; font-family:'Berkeley Mono', 'SF Mono', 'Courier New', monospace;">Website</a></td>
+        <td style="padding-right:16px;"><a href="https://community.ainorthwest.org" style="font-size:12px; color:#9EB83B; text-decoration:none; font-family:'Berkeley Mono', 'SF Mono', 'Courier New', monospace;">Forum</a></td>
+        <td style="padding-right:16px;"><a href="https://www.linkedin.com/company/ai-northwest/" style="font-size:12px; color:#9EB83B; text-decoration:none; font-family:'Berkeley Mono', 'SF Mono', 'Courier New', monospace;">LinkedIn</a></td>
+        <td><a href="https://lu.ma/calendar/cal-rcIqzQGYrDXSlIh" style="font-size:12px; color:#9EB83B; text-decoration:none; font-family:'Berkeley Mono', 'SF Mono', 'Courier New', monospace;">Events</a></td>
+      </tr>
+      </table>
+      <p style="font-size:11px; color:#6e6b63; margin:16px 0 0 0;">Questions? hello@ainorthwest.org</p>
+    </td></tr>
+
+    </table>
+    </td></tr>
+    </table>
+
+    <!-- prevent Gmail on iOS font size manipulation -->
+    <div
+      style="
+        display: none;
+        white-space: nowrap;
+        font: 15px courier;
+        line-height: 0;
+      "
+    >
+      &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+      &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+      &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+    </div>
+    %{dark_mode_styles}
+  </body>
+</html>
