@@ -1,0 +1,106 @@
+/* === AINW Dark Theme for Discourse Emails === */
+/* Paste into Admin > Customize email style > CSS tab */
+/* NOTE: This styles Discourse system emails only (digests, notifications,
+   password resets). Brevo transactional emails (welcome, provisioning)
+   use their own templates in ainw-agent-provisioner and are NOT affected. */
+
+/* Base colors */
+body {
+  background-color: #1c1b18 !important;
+  color: #e2dfd6 !important;
+}
+
+/* Default text color for content elements */
+td, th, div, p, span, li {
+  color: #e2dfd6 !important;
+}
+
+/* Content section backgrounds — explicit dark, not transparent */
+.digest-content, .notification-text, .body, .content {
+  background-color: #1c1b18 !important;
+}
+
+/* Border color override for structural elements */
+table, td, th, hr {
+  border-color: #3a3833 !important;
+}
+
+/* Typography — Berkeley Mono everywhere */
+body, table, td, th, p, a, li, span, div {
+  font-family: 'Berkeley Mono', 'SF Mono', 'Courier New', Monaco, Menlo, monospace !important;
+}
+
+/* Links get AINW accent green */
+a {
+  color: #9EB83B !important;
+}
+
+/* Headings pop white */
+h1, h2, h3, h4, h5, h6 {
+  color: #ffffff !important;
+}
+
+/* Muted/secondary text */
+.date, .topic-info, .footer, small {
+  color: #a8a599 !important;
+}
+
+/* Topic titles in digests */
+a.topic-title {
+  color: #9EB83B !important;
+  text-decoration: none !important;
+}
+
+/* Username links */
+a.username {
+  color: #e2dfd6 !important;
+}
+
+/* Category badges — keep their original colors */
+.badge-category-bg {
+  background-color: revert !important;
+}
+.badge-category {
+  color: revert !important;
+}
+
+/* Buttons (visit topic, reply, etc.) */
+.btn, .btn-primary {
+  background-color: #242320 !important;
+  border: 1px solid #9EB83B !important;
+  color: #9EB83B !important;
+}
+
+/* Avatar images — preserve their backgrounds */
+img.avatar {
+  background-color: transparent !important;
+  border-radius: 50%;
+}
+
+/* Horizontal rules */
+hr {
+  border-color: #3a3833 !important;
+}
+
+/* Blockquotes */
+blockquote {
+  border-left-color: #9EB83B !important;
+  color: #a8a599 !important;
+}
+
+/* Code blocks */
+code, pre {
+  background-color: #242320 !important;
+  color: #e2dfd6 !important;
+  border-color: #3a3833 !important;
+}
+
+/* Post separator lines */
+.separator {
+  border-color: #3a3833 !important;
+}
+
+/* Notification highlight colors */
+.highlighted {
+  background-color: #242320 !important;
+}
