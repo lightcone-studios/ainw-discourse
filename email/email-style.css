@@ -1,5 +1,8 @@
 /* === AINW Dark Theme for Discourse Emails === */
 /* Paste into Admin > Customize email style > CSS tab */
+/* NOTE: This styles Discourse system emails only (digests, notifications,
+   password resets). Brevo transactional emails (welcome, provisioning)
+   use their own templates in ainw-agent-provisioner and are NOT affected. */
 
 /* Base colors */
 body {
@@ -7,10 +10,18 @@ body {
   color: #e2dfd6 !important;
 }
 
-/* Override white backgrounds on content tables */
-table, td, th, tr, div {
-  background-color: transparent !important;
+/* Default text color for content elements */
+td, th, div, p, span, li {
   color: #e2dfd6 !important;
+}
+
+/* Content section backgrounds — explicit dark, not transparent */
+.digest-content, .notification-text, .body, .content {
+  background-color: #1c1b18 !important;
+}
+
+/* Border color override for structural elements */
+table, td, th, hr {
   border-color: #3a3833 !important;
 }
 
