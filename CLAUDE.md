@@ -1,5 +1,8 @@
 # ainw-discourse
 
+**SWE-tier:** LIGHT
+**Security-tier:** NORMAL
+
 ## What This Is
 
 Discourse theme and configuration for the AI Northwest Community Forum at `community.ainorthwest.org`. This repo is consumed directly by Discourse via its git-based theme import feature.
