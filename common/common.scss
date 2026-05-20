@@ -1233,3 +1233,52 @@ body.category-workshop .category-heading {
     letter-spacing: 0.15em;
   }
 }
+
+// In-post audio playback-speed strip.
+// Sibling injected after every <audio> in .cooked by the audio-speed initializer.
+.ainw-speed {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin: 6px 0 14px;
+  font-family: "Courier New", "Monaco", "Menlo", monospace;
+}
+
+.ainw-speed__label {
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text);
+  opacity: 0.6;
+  margin-right: 4px;
+}
+
+.ainw-speed__btn {
+  appearance: none;
+  border: 1px solid var(--text);
+  background: transparent;
+  color: var(--text);
+  font-family: inherit;
+  font-size: 12px;
+  letter-spacing: 0.05em;
+  padding: 4px 10px;
+  border-radius: 0;
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.ainw-speed__btn:hover {
+  background: var(--text);
+  color: var(--bg);
+}
+
+.ainw-speed__btn.is-active {
+  background: var(--text);
+  color: var(--bg);
+}
+
+.ainw-speed__btn:focus-visible {
+  outline: 1px dashed var(--text);
+  outline-offset: 2px;
+}
